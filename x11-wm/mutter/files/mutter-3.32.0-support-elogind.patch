@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/meson.build b/meson.build
+--- a/meson.build	2019-03-11 18:01:02.000000000 -0500
++++ b/meson.build	2019-04-13 16:12:47.796812062 -0500
+@@ -178,7 +178,7 @@
+   libgbm_dep = dependency('gbm', version: gbm_req)
+   libinput_dep = dependency('libinput', version: libinput_req)
+ 
+-  libsystemd_dep = dependency('libsystemd')
++  libsystemd_dep = dependency('libsystemd', required: false)
+   if libsystemd_dep.found()
+     logind_provider_dep = libsystemd_dep
+   else

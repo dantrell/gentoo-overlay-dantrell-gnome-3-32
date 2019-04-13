@@ -25,7 +25,7 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.52:2
 	>=dev-libs/gobject-introspection-1.54:=
 	>=x11-libs/gtk+-3.22.20:3[introspection]
-	>=net-libs/gtk-vnc-0.8.0-r1[gtk3(+),vala]
+	>=net-libs/gtk-vnc-0.8.0[gtk3(+),vala]
 	>=sys-libs/libosinfo-1.1.0[vala]
 	app-crypt/libsecret[vala]
 	>=net-libs/libsoup-2.44:2.4[vala]

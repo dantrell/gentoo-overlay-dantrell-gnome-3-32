@@ -1,3 +1,4 @@
+app-accessibility/accerciser::gentoo
 app-accessibility/at-spi2-atk::gentoo
 app-accessibility/at-spi2-core::gentoo
 app-accessibility/orca::gentoo

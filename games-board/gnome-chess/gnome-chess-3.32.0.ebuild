@@ -3,7 +3,7 @@
 EAPI="6"
 VALA_MIN_API_VERSION="0.40"
 
-inherit gnome.org gnome2-utils meson readme.gentoo-r1 vala xdg
+inherit gnome.org gnome2-utils meson vala xdg
 
 DESCRIPTION="Play the classic two-player boardgame of chess"
 HOMEPAGE="https://wiki.gnome.org/Apps/Chess"
@@ -41,7 +41,6 @@ src_prepare() {
 pkg_postinst() {
 	xdg_pkg_postinst
 	gnome2_schemas_update
-	readme.gentoo_print_elog
 }
 
 pkg_postrm() {

@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome2 virtualx meson
+inherit gnome2 meson virtualx
 
 DESCRIPTION="GNOME 3 compositing window manager based on Clutter"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/mutter/"
@@ -32,6 +32,7 @@ RDEPEND="
 	>=x11-libs/libXcomposite-0.2
 	>=gnome-base/gsettings-desktop-schemas-3.21.4[introspection?]
 	gnome-base/gnome-desktop:3=
+	>sys-power/upower-0.99:=
 
 	x11-libs/libICE
 	x11-libs/libSM
@@ -79,6 +80,14 @@ DEPEND="${RDEPEND}
 "
 
 src_prepare() {
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/mutter/commit/d3dc7d6f493f820a67c9c40a50ebc544a0d50331
+	eapply "${FILESDIR}"/${PN}-3.32.0-support-eudev.patch
+
+	if use elogind; then
+		eapply "${FILESDIR}"/${PN}-3.32.0-support-elogind.patch
+	fi
+
 	if use deprecated-background; then
 		eapply "${FILESDIR}"/${PN}-3.26.1-restore-deprecated-background-code.patch
 	fi

@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/meson.build b/meson.build
+--- a/meson.build	2019-03-11 18:01:02.000000000 -0500
++++ b/meson.build	2019-04-13 16:16:42.030551391 -0500
+@@ -31,7 +31,7 @@
+ atk_req = '>= 2.5.3'
+ 
+ # optional version requirements
+-udev_req = '>= 228'
++udev_req = '>= 220'
+ gudev_req = '>= 232'
+ 
+ # wayland version requirements
