@@ -1,0 +1,333 @@
+diff '--exclude=.git' -urN a/src/terminal-app.c b/src/terminal-app.c
+--- a/src/terminal-app.c	2019-04-08 15:47:57.000000000 -0500
++++ b/src/terminal-app.c	2019-04-11 23:21:27.672735114 -0500
+@@ -747,6 +747,31 @@
+     gtk_widget_destroy (GTK_WIDGET (window));
+ }
+ 
++/* Other action callbacks */
++
++static void
++action_activate_tab_cb (GSimpleAction *action,
++                        GVariant      *parameter,
++                        gpointer       user_data)
++{
++  GtkApplication *application = user_data;
++  GtkWidget *toplevel;
++  TerminalScreen *screen;
++  const char *uuid;
++
++  g_variant_get (parameter, "&s", &uuid);
++  screen = terminal_app_get_screen_by_uuid (TERMINAL_APP (application), uuid);
++  if (screen == NULL)
++    return;
++
++  toplevel = gtk_widget_get_toplevel (GTK_WIDGET (screen));
++  if (!gtk_widget_is_toplevel (toplevel))
++    return;
++
++  terminal_window_switch_screen (TERMINAL_WINDOW (toplevel), screen);
++  gtk_window_present (GTK_WINDOW (toplevel));
++}
++
+ /* Class implementation */
+ 
+ G_DEFINE_TYPE (TerminalApp, terminal_app, GTK_TYPE_APPLICATION)
+@@ -770,6 +795,10 @@
+     { "quit",        app_menu_quit_cb,          NULL, NULL, NULL }
+   };
+ 
++  const GActionEntry other_actions[] = {
++    { "activate-tab",   action_activate_tab_cb, "s",  NULL, NULL }
++  };
++
+   g_application_set_resource_base_path (application, TERMINAL_RESOURCES_PATH_PREFIX);
+ 
+   G_APPLICATION_CLASS (terminal_app_parent_class)->startup (application);
+@@ -780,6 +809,9 @@
+   g_action_map_add_action_entries (G_ACTION_MAP (application),
+                                    action_entries, G_N_ELEMENTS (action_entries),
+                                    application);
++  g_action_map_add_action_entries (G_ACTION_MAP (application),
++                                   other_actions, G_N_ELEMENTS (other_actions),
++                                   application);
+ 
+   app_load_css (application);
+ 
+diff '--exclude=.git' -urN a/src/terminal-debug.c b/src/terminal-debug.c
+--- a/src/terminal-debug.c	2019-04-08 15:47:57.000000000 -0500
++++ b/src/terminal-debug.c	2019-04-11 23:21:27.672735114 -0500
+@@ -38,6 +38,7 @@
+     { "profile",       TERMINAL_DEBUG_PROFILE       },
+     { "settings-list", TERMINAL_DEBUG_SETTINGS_LIST },
+     { "search",        TERMINAL_DEBUG_SEARCH        },
++    { "notifications", TERMINAL_DEBUG_NOTIFICATIONS },
+   };
+ 
+   _terminal_debug_flags = g_parse_debug_string (g_getenv ("GNOME_TERMINAL_DEBUG"),
+diff '--exclude=.git' -urN a/src/terminal-debug.h b/src/terminal-debug.h
+--- a/src/terminal-debug.h	2019-04-08 15:47:57.000000000 -0500
++++ b/src/terminal-debug.h	2019-04-11 23:21:27.672735114 -0500
+@@ -34,7 +34,8 @@
+   TERMINAL_DEBUG_PROCESSES     = 1 << 6,
+   TERMINAL_DEBUG_PROFILE       = 1 << 7,
+   TERMINAL_DEBUG_SETTINGS_LIST = 1 << 8,
+-  TERMINAL_DEBUG_SEARCH        = 1 << 9
++  TERMINAL_DEBUG_SEARCH        = 1 << 9,
++  TERMINAL_DEBUG_NOTIFICATIONS = 1 << 10
+ } TerminalDebugFlags;
+ 
+ void _terminal_debug_init(void);
+diff '--exclude=.git' -urN a/src/terminal-screen.c b/src/terminal-screen.c
+--- a/src/terminal-screen.c	2019-04-08 15:47:58.000000000 -0500
++++ b/src/terminal-screen.c	2019-04-11 23:21:49.896625018 -0500
+@@ -55,6 +55,7 @@
+ #include "terminal-marshal.h"
+ #include "terminal-schemas.h"
+ #include "terminal-screen-container.h"
++#include "terminal-tab-label.h"
+ #include "terminal-util.h"
+ #include "terminal-window.h"
+ #include "terminal-info-bar.h"
+@@ -91,6 +92,7 @@
+   char **initial_env;
+   char **override_command;
+   gboolean shell;
++  gboolean shell_prompt_shown;
+   int child_pid;
+   GSList *match_tags;
+   guint launch_child_source_id;
+@@ -136,6 +138,8 @@
+ static void terminal_screen_system_font_changed_cb (GSettings *,
+                                                     const char*,
+                                                     TerminalScreen *screen);
++static gboolean terminal_screen_focus_in (GtkWidget *widget,
++                                          GdkEventFocus *event);
+ static gboolean terminal_screen_popup_menu (GtkWidget *widget);
+ static gboolean terminal_screen_button_press (GtkWidget *widget,
+                                               GdkEventButton *event);
+@@ -144,6 +148,9 @@
+                                          GError **error);
+ static void terminal_screen_child_exited  (VteTerminal *terminal,
+                                            int status);
++static void terminal_screen_notification_received (VteTerminal *terminal,
++                                                   const char  *summary,
++                                                   const char  *body);
+ 
+ static void terminal_screen_window_title_changed      (VteTerminal *vte_terminal,
+                                                        TerminalScreen *screen);
+@@ -470,6 +477,7 @@
+   object_class->get_property = terminal_screen_get_property;
+   object_class->set_property = terminal_screen_set_property;
+ 
++  widget_class->focus_in_event = terminal_screen_focus_in;
+   widget_class->realize = terminal_screen_realize;
+   widget_class->style_updated = terminal_screen_style_updated;
+   widget_class->drag_data_received = terminal_screen_drag_data_received;
+@@ -477,6 +485,7 @@
+   widget_class->popup_menu = terminal_screen_popup_menu;
+ 
+   terminal_class->child_exited = terminal_screen_child_exited;
++  terminal_class->notification_received = terminal_screen_notification_received;
+ 
+   signals[PROFILE_SET] =
+     g_signal_new (I_("profile-set"),
+@@ -572,6 +581,10 @@
+   TerminalScreen *screen = TERMINAL_SCREEN (object);
+   TerminalScreenPrivate *priv = screen->priv;
+   GtkSettings *settings;
++  TerminalApp *app;
++
++  app = terminal_app_get ();
++  g_application_withdraw_notification (G_APPLICATION (app), priv->uuid);
+ 
+   /* Unset child PID so that when an eventual child-exited signal arrives,
+    * we don't emit "close".
+@@ -1611,6 +1624,45 @@
+   return FALSE;
+ }
+ 
++static gboolean
++terminal_screen_focus_in (GtkWidget     *widget,
++                          GdkEventFocus *event)
++{
++  TerminalScreen *screen = TERMINAL_SCREEN (widget);
++  TerminalApp *app;
++  TerminalWindow *window;
++
++  _terminal_debug_print (TERMINAL_DEBUG_NOTIFICATIONS, "Notification withdrawn\n");
++
++  window = terminal_screen_get_window (screen);
++  if (window != NULL)
++    {
++      TerminalScreenContainer *screen_container;
++
++      screen_container = terminal_screen_container_get_from_screen (screen);
++      if (screen_container != NULL)
++        {
++          GtkWidget *mdi_container;
++
++          mdi_container = terminal_window_get_mdi_container (window);
++          /* FIXME: add interface method to retrieve tab label */
++          if (GTK_IS_NOTEBOOK (mdi_container))
++            {
++              GtkWidget *tab_label;
++
++              tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK (mdi_container), GTK_WIDGET (screen_container));
++              terminal_tab_label_set_bold (TERMINAL_TAB_LABEL (tab_label), FALSE);
++              terminal_tab_label_set_icon (TERMINAL_TAB_LABEL (tab_label), NULL, NULL);
++            }
++        }
++    }
++
++  app = terminal_app_get ();
++  g_application_withdraw_notification (G_APPLICATION (app), screen->priv->uuid);
++
++  return GTK_WIDGET_CLASS (terminal_screen_parent_class)->focus_in_event (widget, event);
++}
++
+ /**
+  * terminal_screen_get_current_dir:
+  * @screen:
+@@ -1707,6 +1759,68 @@
+     }
+ }
+ 
++static void
++terminal_screen_notification_received (VteTerminal *terminal,
++                                       const char  *summary,
++                                       const char  *body)
++{
++  TerminalScreen *screen = TERMINAL_SCREEN (terminal);
++  TerminalScreenPrivate *priv = screen->priv;
++  TerminalWindow *window;
++
++  _terminal_debug_print (TERMINAL_DEBUG_NOTIFICATIONS, "Notification received: [%s]: %s\n", summary, body);
++
++  if (G_UNLIKELY (!priv->shell_prompt_shown))
++    {
++      priv->shell_prompt_shown = TRUE;
++      return;
++    }
++
++  window = terminal_screen_get_window (screen);
++  if (window == NULL)
++    return;
++
++  if (gtk_window_is_active (GTK_WINDOW (window)))
++    {
++      GtkWidget *mdi_container;
++      TerminalScreenContainer *screen_container;
++
++      if (screen == terminal_window_get_active (window))
++        return;
++
++      screen_container = terminal_screen_container_get_from_screen (screen);
++      if (screen_container == NULL)
++        return;
++
++      mdi_container = terminal_window_get_mdi_container (window);
++      /* FIXME: add interface method to retrieve tab label */
++      if (GTK_IS_NOTEBOOK (mdi_container))
++        {
++          GtkWidget *tab_label;
++
++          tab_label = gtk_notebook_get_tab_label (GTK_NOTEBOOK (mdi_container), GTK_WIDGET (screen_container));
++          terminal_tab_label_set_bold (TERMINAL_TAB_LABEL (tab_label), TRUE);
++          terminal_tab_label_set_icon (TERMINAL_TAB_LABEL (tab_label), "dialog-information-symbolic", summary);
++          _terminal_debug_print (TERMINAL_DEBUG_NOTIFICATIONS, "Notify tab\n");
++        }
++    }
++  else
++    {
++      gs_unref_object GNotification *notification = NULL;
++      TerminalApp *app;
++      gs_free char *detailed_action = NULL;
++
++      notification = g_notification_new (summary);
++      g_notification_set_body (notification, body);
++      detailed_action = g_strdup_printf ("app.activate-tab::%s", priv->uuid);
++      g_notification_set_default_action (notification, detailed_action);
++
++      app = terminal_app_get ();
++      g_application_send_notification (G_APPLICATION (app), priv->uuid, notification);
++      _terminal_debug_print (TERMINAL_DEBUG_NOTIFICATIONS, "Notify desktop\n");
++    }
++}
++
+ static void
+ terminal_screen_drag_data_received (GtkWidget        *widget,
+                                     GdkDragContext   *context,
+diff '--exclude=.git' -urN a/src/terminal-tab-label.c b/src/terminal-tab-label.c
+--- a/src/terminal-tab-label.c	2019-04-08 15:47:58.000000000 -0500
++++ b/src/terminal-tab-label.c	2019-04-11 23:21:27.672735114 -0500
+@@ -34,6 +34,7 @@
+ struct _TerminalTabLabelPrivate
+ {
+   TerminalScreen *screen;
++  GtkWidget *icon;
+   GtkWidget *label;
+   GtkWidget *close_button;
+   gboolean bold;
+@@ -179,7 +180,7 @@
+ {
+   TerminalTabLabel *tab_label = TERMINAL_TAB_LABEL (object);
+   TerminalTabLabelPrivate *priv = tab_label->priv;
+-  GtkWidget *hbox, *label, *close_button;
++  GtkWidget *hbox, *icon, *label, *close_button;
+ 
+   G_OBJECT_CLASS (terminal_tab_label_parent_class)->constructed (object);
+ 
+@@ -189,6 +190,10 @@
+   
+   gtk_box_set_spacing (GTK_BOX (hbox), SPACING);
+ 
++  priv->icon = icon = gtk_image_new ();
++  gtk_widget_set_no_show_all (icon, TRUE);
++  gtk_box_pack_start (GTK_BOX (hbox), icon, FALSE, FALSE, 0);
++
+   priv->label = label = gtk_label_new (NULL);
+   gtk_widget_set_halign (label, GTK_ALIGN_CENTER);
+   gtk_widget_set_valign (label, GTK_ALIGN_BASELINE);
+@@ -377,6 +382,27 @@
+ }
+ 
+ /**
++ * terminal_tab_label_set_icon:
++ * @tab_label: a #TerminalTabLabel
++ * @icon_name: (allow-none): an icon name
++ * @tooltip: (allow-none): text to be used as tooltip
++ *
++ * Shows an icon at the beginning of @tab_label. If @icon_name is
++ * %NULL, then the icon will be hidden.
++ */
++void
++terminal_tab_label_set_icon (TerminalTabLabel *tab_label,
++                             const char *icon_name,
++                             const char *tooltip)
++{
++  TerminalTabLabelPrivate *priv = tab_label->priv;
++
++  gtk_widget_set_visible (priv->icon, icon_name != NULL);
++  gtk_image_set_from_icon_name (GTK_IMAGE (priv->icon), icon_name, GTK_ICON_SIZE_MENU);
++  gtk_widget_set_tooltip_text (GTK_WIDGET (priv->icon), tooltip);
++}
++
++/**
+  * terminal_tab_label_get_screen:
+  * @tab_label: a #TerminalTabLabel
+  *
+diff '--exclude=.git' -urN a/src/terminal-tab-label.h b/src/terminal-tab-label.h
+--- a/src/terminal-tab-label.h	2019-04-08 15:47:58.000000000 -0500
++++ b/src/terminal-tab-label.h	2019-04-11 23:21:27.673735109 -0500
+@@ -59,6 +59,10 @@
+ void            terminal_tab_label_set_bold   (TerminalTabLabel *tab_label,
+                                                gboolean bold);
+ 
++void            terminal_tab_label_set_icon   (TerminalTabLabel *tab_label,
++                                               const char *icon_name,
++                                               const char *tooltip);
++
+ TerminalScreen *terminal_tab_label_get_screen (TerminalTabLabel *tab_label);
+ 
+ G_END_DECLS

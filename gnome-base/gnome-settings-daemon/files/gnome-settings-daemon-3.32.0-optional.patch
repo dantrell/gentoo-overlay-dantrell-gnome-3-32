@@ -1,0 +1,124 @@
+diff '--exclude=.git' -urN a/meson.build b/meson.build
+--- a/meson.build	2019-03-11 17:43:44.000000000 -0500
++++ b/meson.build	2019-04-11 01:29:07.186541378 -0500
+@@ -83,7 +83,6 @@
+ add_project_arguments(common_flags + compiler_flags, language: 'c')
+ 
+ glib_dep = dependency('glib-2.0', version: '>= 2.56')
+-colord_dep = dependency('colord', version: '>= 1.0.2')
+ geocode_glib_dep = dependency('geocode-glib-1.0', version: '>= 3.10.0')
+ gio_dep = dependency('gio-2.0', version: '>= 2.53.0')
+ gio_unix_dep = dependency('gio-unix-2.0')
+@@ -123,13 +122,16 @@
+   gudev_dep = dependency('gudev-1.0')
+ endif
+ config_h.set10('HAVE_GUDEV', enable_gudev)
+-if host_is_linux
+-  assert(enable_gudev, 'GUdev is not optional on Linux platforms')
+-endif
+ 
+ has_timerfd_create = cc.has_function('timerfd_create')
+ config_h.set10('HAVE_TIMERFD', has_timerfd_create)
+ 
++# Check for colord dependency
++enable_color = get_option('color')
++if enable_color
++  colord_dep = dependency('colord', version: '>= 1.0.2')
++endif
++
+ # Check for wayland dependencies
+ enable_wayland = get_option('wayland')
+ if enable_wayland
+@@ -140,7 +142,7 @@
+ config_h.set10('HAVE_WAYLAND', enable_wayland)
+ 
+ # wacom (disabled for s390/s390x and non Linux platforms)
+-enable_wacom = host_is_linux_not_s390
++enable_wacom = host_is_linux_not_s390 and get_option('wacom')
+ if enable_wacom
+   assert(enable_gudev, 'GUDev support is required for wacom support.')
+   libwacom_dep = dependency('libwacom', version: '>= 0.7')
+@@ -193,7 +195,6 @@
+ 
+ # Sharing plugin
+ enable_network_manager = get_option('network_manager')
+-assert(enable_network_manager or not host_is_linux, 'NetworkManager support is not optional on Linux platforms')
+ if enable_network_manager
+   # network manager
+   libnm_dep = dependency('libnm', version: '>= 1.0')
+@@ -236,9 +237,11 @@
+ output += '        compiler:                 ' + cc.get_id() + '\n'
+ output += '        cflags:                   ' + ' '.join(compiler_flags) + '\n\n'
+ output += '        ALSA support:             ' + enable_alsa.to_string() + '\n'
++output += '        Color support             ' + enable_color.to_string() + '\n'
++output += '        GUdev support             ' + enable_gudev.to_string() + '\n'
+ output += '        NetworkManager support:   ' + enable_network_manager.to_string() + '\n'
+ output += '        Smartcard support:        ' + enable_smartcard.to_string() + '\n'
+-output += '        Cups support:             ' + enable_cups.to_string() + '\n'
++output += '        CUPS support:             ' + enable_cups.to_string() + '\n'
+ output += '        Wayland support:          ' + enable_wayland.to_string() + '\n'
+ output += '        Wacom support:            ' + enable_wacom.to_string() + '\n'
+ output += '        RFKill support:           ' + enable_rfkill.to_string() + '\n'
+diff '--exclude=.git' -urN a/meson_options.txt b/meson_options.txt
+--- a/meson_options.txt	2019-03-11 17:43:44.000000000 -0500
++++ b/meson_options.txt	2019-04-11 01:27:00.665145042 -0500
+@@ -2,9 +2,11 @@
+ option('udev_dir', type: 'string', value: '', description: 'Absolute path of the udev base directory')
+ 
+ option('alsa', type: 'boolean', value: true, description: 'build with ALSA support (not optional on Linux platforms)')
+-option('gudev', type: 'boolean', value: true, description: 'build with gudev device support (not optional on Linux platforms)')
++option('gudev', type: 'boolean', value: true, description: 'build with gudev device support')
++option('color', type: 'boolean', value: true, description: 'build with colord support')
+ option('cups', type: 'boolean', value: true, description: 'build with CUPS support')
+-option('network_manager', type: 'boolean', value: true, description: 'build with NetworkManager support (not optional on Linux platforms)')
++option('network_manager', type: 'boolean', value: true, description: 'build with NetworkManager support')
+ option('rfkill', type: 'boolean', value: true, description: 'build with rfkill support (not optional on Linux platforms)')
+ option('smartcard', type: 'boolean', value: true, description: 'build with smartcard support')
++option('wacom', type: 'boolean', value: true, description: 'build with Wacom support')
+ option('wayland', type: 'boolean', value: true, description: 'build with Wayland support')
+diff '--exclude=.git' -urN a/plugins/color/meson.build b/plugins/color/meson.build
+--- a/plugins/color/meson.build	2019-03-11 17:43:44.000000000 -0500
++++ b/plugins/color/meson.build	2019-04-11 01:27:00.665145042 -0500
+@@ -11,7 +11,6 @@
+ )
+ 
+ deps = plugins_deps + [
+-  colord_dep,
+   gnome_desktop_dep,
+   lcms_dep,
+   libcanberra_gtk_dep,
+@@ -20,6 +19,12 @@
+   m_dep,
+ ]
+ 
++if enable_color
++  deps += [
++    colord_dep
++  ]
++endif
++
+ cflags += ['-DBINDIR="@0@"'.format(gsd_bindir)]
+ 
+ executable(
+diff '--exclude=.git' -urN a/plugins/meson.build b/plugins/meson.build
+--- a/plugins/meson.build	2019-03-11 17:43:44.000000000 -0500
++++ b/plugins/meson.build	2019-04-11 01:27:00.665145042 -0500
+@@ -1,7 +1,6 @@
+ enabled_plugins = [
+   ['a11y-settings', 'A11ySettings'],
+   ['clipboard', 'Clipboard'],
+-  ['color', 'Color'],
+   ['datetime', 'Datetime'],
+   ['dummy', ''],
+   ['power', 'Power'],
+@@ -15,6 +14,10 @@
+   ['xsettings', 'XSettings']
+ ]
+ 
++if enable_color
++  enabled_plugins += [['color', 'Color']]
++endif
++
+ if enable_smartcard
+   enabled_plugins += [['smartcard', 'Smartcard']]
+ endif

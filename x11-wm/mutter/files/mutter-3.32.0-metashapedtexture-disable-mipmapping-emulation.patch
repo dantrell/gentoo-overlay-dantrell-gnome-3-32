@@ -1,0 +1,12 @@
+diff '--exclude=.git' -urN a/src/compositor/meta-shaped-texture.c b/src/compositor/meta-shaped-texture.c
+--- a/src/compositor/meta-shaped-texture.c	2019-03-11 18:01:02.000000000 -0500
++++ b/src/compositor/meta-shaped-texture.c	2019-04-11 01:49:31.145692918 -0500
+@@ -163,7 +163,7 @@
+ 
+   stex->texture = NULL;
+   stex->mask_texture = NULL;
+-  stex->create_mipmaps = TRUE;
++  stex->create_mipmaps = FALSE;
+   stex->is_y_inverted = TRUE;
+   stex->transform = META_MONITOR_TRANSFORM_NORMAL;
+ 
