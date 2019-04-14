@@ -110,15 +110,15 @@ src_configure() {
 		-D egl=true
 		-D glx=true
 		$(meson_use wayland)
-		$(meson_use wayland native_backend)
+		$(meson_use gles2 native_backend)
 		-D remote_desktop=false
 		$(meson_use wayland egl_device)
-		$(meson_use wayland wayland_eglstream)
+		-D wayland_eglstream=false
 		$(meson_use udev)
 		$(meson_use input_devices_wacom libwacom)
 		-D pango_ft2=true
 		-D startup_notification=true
-		-Dsm=true
+		-D sm=true
 		$(meson_use introspection)
 		$(meson_use test cogl_tests)
 		$(meson_use test clutter_tests)

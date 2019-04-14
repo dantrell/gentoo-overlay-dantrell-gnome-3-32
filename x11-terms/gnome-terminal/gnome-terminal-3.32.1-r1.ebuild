@@ -43,6 +43,8 @@ DOC_CONTENTS="To get previous working directory inherited in new opened tab, or
 	. /etc/profile.d/vte-2.91.sh"
 
 src_prepare() {
+	eapply "${FILESDIR}"/${PN}-3.32.1-desktop-icon.patch
+
 	if use deprecated-transparency; then
 		# From Fedora:
 		# 	https://src.fedoraproject.org/cgit/rpms/gnome-terminal.git/tree/?h=f30
