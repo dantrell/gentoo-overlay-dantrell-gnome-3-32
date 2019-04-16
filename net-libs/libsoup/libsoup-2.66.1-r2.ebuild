@@ -1,11 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
 VALA_USE_DEPEND="vapigen"
 
-inherit gnome2 multilib-minimal python-any-r1 vala meson
+inherit gnome2 meson multilib-minimal python-any-r1 vala
 
 DESCRIPTION="An HTTP library implementation in C"
 HOMEPAGE="https://wiki.gnome.org/Projects/libsoup"

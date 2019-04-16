@@ -46,7 +46,7 @@ RDEPEND="${RDEPEND}
 src_prepare() {
 	if ! use vanilla-notify; then
 		# From Fedora:
-		# 	https://src.fedoraproject.org/cgit/rpms/vte291.git/tree/?h=f30
+		# 	https://src.fedoraproject.org/rpms/vte291/tree/f30
 		eapply "${FILESDIR}"/${PN}-0.54.1-command-notify.patch
 	fi
 
