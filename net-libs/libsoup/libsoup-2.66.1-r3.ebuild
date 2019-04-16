@@ -47,11 +47,20 @@ multilib_src_configure() {
 		$(meson_use samba ntlm)
 		$(usex samba -Dntlm_auth="'${EPREFIX}/usr/bin/ntlm_auth'" "")
 		$(meson_use gnome)
-		$(meson_use introspection)
-		$(meson_use vala vapi)
 		$(meson_use doc)
 		$(meson_use test tests)
 	)
+	if multilib_is_native_abi; then
+		emesonargs+=(
+			$(meson_use introspection)
+			$(meson_use vala vapi)
+		)
+	else
+		emesonargs+=(
+			-Dintrospection=false
+			-Dvapi=false
+		)
+	fi
 	meson_src_configure
 }
 
