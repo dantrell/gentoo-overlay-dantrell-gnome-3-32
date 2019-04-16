@@ -73,7 +73,6 @@ src_configure() {
 		--enable-media-server \
 		--enable-owncloud \
 		--enable-pocket \
-		--enable-todoist \
 		--enable-windows-live \
 		$(usex debug --enable-debug=yes ' ') \
 		$(use_enable kerberos) \

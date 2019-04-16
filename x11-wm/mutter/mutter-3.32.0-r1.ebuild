@@ -98,6 +98,10 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-3.32.0-metashapedtexture-disable-mipmapping-emulation.patch
 	fi
 
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/mutter/commit/9d49e8abd077941b126685dde3b64753cc4fc916
+	eapply "${FILESDIR}"/${PN}-3.32.1-launch-context-swap-reversed-timestamp-workspace.patch
+
 	gnome2_src_prepare
 }
 

@@ -12,7 +12,7 @@ LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="debug +deprecated-transparency +gnome-shell +nautilus vanilla-hotkeys vanilla-notify vanilla-open-terminal"
+IUSE="debug +deprecated-transparency +gnome-shell +nautilus vanilla-hotkeys +vanilla-icon vanilla-notify vanilla-open-terminal"
 
 # FIXME: automagic dependency on gtk+[X], just transitive but needs proper control, bug 624960
 RDEPEND="
@@ -43,7 +43,9 @@ DOC_CONTENTS="To get previous working directory inherited in new opened tab, or
 	. /etc/profile.d/vte-2.91.sh"
 
 src_prepare() {
-	eapply "${FILESDIR}"/${PN}-3.32.1-desktop-icon.patch
+	if ! use vanilla-icon; then
+		eapply "${FILESDIR}"/${PN}-3.32.1-desktop-icon.patch
+	fi
 
 	if use deprecated-transparency; then
 		# From Fedora:

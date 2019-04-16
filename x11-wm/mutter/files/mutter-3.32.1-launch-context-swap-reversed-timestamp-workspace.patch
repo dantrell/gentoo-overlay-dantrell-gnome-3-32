@@ -1,0 +1,30 @@
+From 9d49e8abd077941b126685dde3b64753cc4fc916 Mon Sep 17 00:00:00 2001
+From: Daniel van Vugt <daniel.van.vugt@canonical.com>
+Date: Mon, 1 Apr 2019 17:47:48 +0800
+Subject: [PATCH] launch-context: Swap reversed timestamp/workspace
+
+The parameters had been mixed up for X11 sessions.
+
+Closes: https://gitlab.gnome.org/GNOME/mutter/issues/505
+---
+ src/core/meta-launch-context.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/core/meta-launch-context.c b/src/core/meta-launch-context.c
+index eb8671bb2..eda51514f 100644
+--- a/src/core/meta-launch-context.c
++++ b/src/core/meta-launch-context.c
+@@ -142,8 +142,8 @@ meta_launch_context_get_startup_notify_id (GAppLaunchContext *launch_context,
+       startup_id =
+         meta_x11_startup_notification_launch (display->x11_display,
+                                               info,
+-                                              workspace_idx,
+-                                              context->timestamp);
++                                              context->timestamp,
++                                              workspace_idx);
+     }
+ 
+   if (!startup_id)
+-- 
+2.18.1
+
