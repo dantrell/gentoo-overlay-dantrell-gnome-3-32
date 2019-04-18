@@ -152,7 +152,6 @@ src_configure() {
 		-Dplugin_ctags=true
 		-Dplugin_color_picker=true
 		-Dplugin_code_index=true
-		-Dplugin_clang=true
 		-Dplugin_c_pack=true
 		-Dplugin_glade=$(usex glade true false)
 	)
