@@ -84,10 +84,6 @@ src_prepare() {
 	# 	https://gitlab.gnome.org/GNOME/mutter/commit/d3dc7d6f493f820a67c9c40a50ebc544a0d50331
 	eapply "${FILESDIR}"/${PN}-3.32.0-support-eudev.patch
 
-	if use elogind; then
-		eapply "${FILESDIR}"/${PN}-3.32.0-support-elogind.patch
-	fi
-
 	if use deprecated-background; then
 		eapply "${FILESDIR}"/${PN}-3.26.1-restore-deprecated-background-code.patch
 	fi
@@ -97,10 +93,6 @@ src_prepare() {
 	if ! use vanilla-mipmapping; then
 		eapply "${FILESDIR}"/${PN}-3.32.0-metashapedtexture-disable-mipmapping-emulation.patch
 	fi
-
-	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/mutter/commit/9d49e8abd077941b126685dde3b64753cc4fc916
-	eapply "${FILESDIR}"/${PN}-3.32.1-launch-context-swap-reversed-timestamp-workspace.patch
 
 	gnome2_src_prepare
 }

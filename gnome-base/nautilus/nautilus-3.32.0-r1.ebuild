@@ -19,6 +19,7 @@ COMMON_DEPEND="
 	>=app-arch/gnome-autoar-0.2.1
 	gnome-base/gsettings-desktop-schemas
 	>=x11-libs/gtk+-3.22.27:3[X,introspection?]
+	!vanilla-thumbnailer? ( >=gnome-base/gnome-desktop-3:3= )
 	vanilla-thumbnailer? ( sys-libs/libseccomp )
 	>=x11-libs/pango-1.28.3
 	selinux? ( >=sys-libs/libselinux-2.0 )
@@ -82,7 +83,7 @@ src_prepare() {
 	if ! use vanilla-search; then
 		# From Dr. Amr Osman:
 		# 	https://bugs.launchpad.net/ubuntu/+source/nautilus/+bug/1164016/comments/31
-		eapply "${FILESDIR}"/${PN}-3.30.0-support-alternative-search.patch
+		eapply "${FILESDIR}"/${PN}-3.32.0-support-alternative-search.patch
 	fi
 
 	if ! use vanilla-thumbnailer; then
