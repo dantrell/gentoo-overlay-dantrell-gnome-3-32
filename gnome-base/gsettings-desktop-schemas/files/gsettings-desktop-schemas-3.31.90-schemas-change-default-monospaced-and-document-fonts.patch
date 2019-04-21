@@ -1,0 +1,34 @@
+From 965062de47f5171727c1e4f7f0aac2ad40e3484a Mon Sep 17 00:00:00 2001
+From: Jakub Steiner <jimmac@gmail.com>
+Date: Thu, 31 Jan 2019 18:47:07 +0100
+Subject: [PATCH] schemas: change default monospaced and document fonts
+
+https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/issues/2
+---
+ schemas/org.gnome.desktop.interface.gschema.xml.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/schemas/org.gnome.desktop.interface.gschema.xml.in b/schemas/org.gnome.desktop.interface.gschema.xml.in
+index 1713f25..22ef50d 100644
+--- a/schemas/org.gnome.desktop.interface.gschema.xml.in
++++ b/schemas/org.gnome.desktop.interface.gschema.xml.in
+@@ -149,14 +149,14 @@
+       </description>
+     </key>
+     <key name="document-font-name" type="s">
+-      <default>'Sans 11'</default>
++      <default>'Cantarell 11'</default>
+       <summary>Document font</summary>
+       <description>
+         Name of the default font used for reading documents.
+       </description>
+     </key>
+     <key name="monospace-font-name" type="s">
+-      <default>'Monospace 11'</default>
++      <default>'Source Code Pro 10'</default>
+       <summary>Monospace font</summary>
+       <description>
+         Name of a monospaced (fixed-width) font for use in locations like
+-- 
+2.18.1
+
