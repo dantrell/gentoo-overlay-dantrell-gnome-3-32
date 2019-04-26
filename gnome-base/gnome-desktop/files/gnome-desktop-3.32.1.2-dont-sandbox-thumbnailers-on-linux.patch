@@ -1,6 +1,6 @@
 diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b/libgnome-desktop/gnome-desktop-thumbnail-script.c
---- a/libgnome-desktop/gnome-desktop-thumbnail-script.c	2019-04-09 18:33:23.000000000 -0500
-+++ b/libgnome-desktop/gnome-desktop-thumbnail-script.c	2019-04-12 05:21:53.460728000 -0500
+--- a/libgnome-desktop/gnome-desktop-thumbnail-script.c	2019-04-23 15:23:14.000000000 -0500
++++ b/libgnome-desktop/gnome-desktop-thumbnail-script.c	2019-04-23 18:41:18.548275000 -0500
 @@ -33,28 +33,11 @@
  #include <sys/stat.h>
  #include <fcntl.h>
@@ -260,7 +260,7 @@ diff '--exclude=.git' -urN a/libgnome-desktop/gnome-desktop-thumbnail-script.c b
 -    {SCMP_SYS (clone), &SCMP_A0 (SCMP_CMP_MASKED_EQ, CLONE_NEWUSER, CLONE_NEWUSER)},
 -
 -    /* Don't allow faking input to the controlling tty (CVE-2017-5226) */
--    {SCMP_SYS (ioctl), &SCMP_A1(SCMP_CMP_EQ, (int)TIOCSTI)},
+-    {SCMP_SYS (ioctl), &SCMP_A1(SCMP_CMP_MASKED_EQ, 0xFFFFFFFFu, (int)TIOCSTI)},
 -  };
 -
 -  struct

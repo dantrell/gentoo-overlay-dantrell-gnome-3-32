@@ -48,7 +48,7 @@ src_prepare() {
 	if ! use vanilla-thumbnailer; then
 		# From GNOME:
 		# 	https://gitlab.gnome.org/GNOME/gnome-desktop/commit/8b1db18aa75c2684b513481088b4e289b5c8ed92
-		eapply "${FILESDIR}"/${PN}-3.32.1-dont-sandbox-thumbnailers-on-linux.patch
+		eapply "${FILESDIR}"/${PN}-3.32.1.2-dont-sandbox-thumbnailers-on-linux.patch
 	fi
 
 	gnome2_src_prepare
