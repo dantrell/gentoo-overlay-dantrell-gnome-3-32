@@ -11,7 +11,7 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="ck debug deprecated-background elogind gles2 input_devices_wacom +introspection systemd test udev +vanilla-mipmapping wayland"
+IUSE="ck debug deprecated-background elogind input_devices_wacom +introspection systemd test udev +vanilla-mipmapping wayland"
 REQUIRED_USE="
 	?? ( ck elogind systemd )
 	wayland? ( || ( elogind systemd ) )
@@ -54,7 +54,6 @@ RDEPEND="
 	gnome-extra/zenity
 	>=media-libs/mesa-17.2.0[egl]
 
-	gles2? ( media-libs/mesa[gles2] )
 	input_devices_wacom? ( >=dev-libs/libwacom-0.13 )
 	introspection? ( >=dev-libs/gobject-introspection-1.42:= )
 	udev? ( >=virtual/libgudev-232:= )
@@ -102,11 +101,11 @@ src_configure() {
 
 	local emesonargs=(
 		-D opengl=true
-		$(meson_use gles2)
+		$(meson_use wayland gles2)
 		-D egl=true
 		-D glx=true
 		$(meson_use wayland)
-		$(meson_use gles2 native_backend)
+		$(meson_use wayland native_backend)
 		-D remote_desktop=false
 		$(meson_use wayland egl_device)
 		-D wayland_eglstream=false
