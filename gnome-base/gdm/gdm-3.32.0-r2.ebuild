@@ -131,7 +131,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/${PN}-3.8.4-fingerprint-auth.patch
 
 	if use elogind; then
-		eapply "${FILESDIR}"/${PN}-3.24.2-support-elogind.patch
+		eapply "${FILESDIR}"/${PN}-3.30.3-support-elogind.patch
 		eapply "${FILESDIR}"/${PN}-3.32.0-enable-elogind.patch
 	fi
 
@@ -160,14 +160,6 @@ src_configure() {
 	# --with-at-spi-registryd-directory= needs to be passed explicitly because
 	# of https://bugzilla.gnome.org/show_bug.cgi?id=607643#c4
 	# Xevie is obsolete, bug #482304
-
-	# --with-initial-vt=7 conflicts with plymouth, bug #453392
-	# gdm-3.30 now reaps (stops) the login screen when the login VT isn't active, which
-	# saves on memory. However this means if we don't start on VT1, gdm doesn't start up
-	# before user manually goes to VT7. Thus as-is we can not keep gdm away from VT1,
-	# so lets try always having it in VT1 and see if that is an issue for people before
-	# hacking up workarounds for the initial start case.
-	# ! use plymouth && myconf="${myconf} --with-initial-vt=7"
 	local myconf=(
 		--enable-gdm-xsession
 		--enable-user-display-server
@@ -190,9 +182,8 @@ src_configure() {
 		$(use_with tcpd tcp-wrappers)
 		$(use_enable wayland wayland-support)
 		$(use_with xinerama)
+		--with-initial-vt=7
 	)
-
-	! use plymouth && myconf+=( --with-initial-vt=7 )
 
 	gnome2_src_configure "${myconf[@]}"
 }
