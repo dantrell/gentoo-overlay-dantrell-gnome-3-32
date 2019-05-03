@@ -14,7 +14,7 @@ KEYWORDS="*"
 IUSE="ck debug deprecated-background elogind input_devices_wacom +introspection systemd test +udev +vanilla-mipmapping wayland"
 REQUIRED_USE="
 	?? ( ck elogind systemd )
-	wayland? ( || ( elogind systemd ) )
+	wayland? ( udev || ( elogind systemd ) )
 "
 
 # libXi-1.7.4 or newer needed per:
