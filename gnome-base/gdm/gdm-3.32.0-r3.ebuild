@@ -214,6 +214,17 @@ src_install() {
 
 pkg_postinst() {
 	gnome2_pkg_postinst
+
+	# bug #669146; gdm may crash if /var/lib/gdm subdirs are not owned by gdm:gdm
+	local d ret
+	ret=0
+	ebegin "Fixing "${EROOT}"var/lib/gdm ownership"
+	chown --no-dereference gdm:gdm "${EROOT}var/lib/gdm" || ret=1
+	for d in "${EROOT}var/lib/gdm/"{.cache,.color,.config,.dbus,.local}; do
+		[[ ! -e "${d}" ]] || chown --no-dereference -R gdm:gdm "${d}" || ret=1
+	done
+	eend ${ret}
+
 	use systemd && systemd_reenable gdm.service
 	readme.gentoo_print_elog
 }

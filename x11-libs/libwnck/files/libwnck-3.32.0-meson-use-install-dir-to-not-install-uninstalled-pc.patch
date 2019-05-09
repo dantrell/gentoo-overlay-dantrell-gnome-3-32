@@ -1,0 +1,44 @@
+From e41ee043be4c73cab2767d5010b2d0175b3bfaa6 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Marco=20Trevisan=20=28Trevi=C3=B1o=29?= <mail@3v1n0.net>
+Date: Tue, 30 Apr 2019 17:24:40 -0500
+Subject: [PATCH] meson: Use `install_dir` to not install uninstalled .pc
+
+Also bump meson dependency as this needs 0.50.0
+---
+ meson.build | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index 9960a78..7ba1c24 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,7 +1,7 @@
+ project('libwnck',
+   'c',
+   version: '3.32.0',
+-  meson_version: '>= 0.48.1')
++  meson_version: '>= 0.50.0')
+ 
+ LIBWNCK_SOVERSION = 0
+ 
+@@ -80,14 +80,12 @@ pc_conf.set('XRES_PACKAGE', XRES_PACKAGE)
+ pc_conf.set('VERSION', meson.project_version())
+ 
+ foreach pc: [PACKAGE_NAME, PACKAGE_NAME + '-uninstalled']
+-  install_path = []
+-  if not pc.contains('-uninstalled')
+-    install_path = join_paths(libdir, 'pkgconfig')
+-  endif
+   configure_file(input: pc + '.pc.in',
+     output: pc + '.pc',
+     configuration: pc_conf,
+-    install_dir: install_path)
++    install: not pc.contains('-uninstalled'),
++    install_dir: join_paths(libdir, 'pkgconfig'),
++  )
+ endforeach
+ 
+ subdir('libwnck')
+-- 
+2.18.1
+
