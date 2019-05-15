@@ -52,6 +52,7 @@ gnome-base/gnome-core-apps::gentoo
 gnome-base/gnome-core-libs::gentoo
 gnome-base/gnome-desktop::gentoo
 gnome-base/gnome-extra-apps::gentoo
+gnome-base/gnome-flashback::gentoo
 gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-light::gentoo
 gnome-base/gnome-menus::gentoo
@@ -116,4 +117,5 @@ x11-misc/gpaste::gentoo
 x11-terms/gnome-terminal::gentoo
 x11-themes/adwaita-icon-theme::gentoo
 x11-themes/gnome-backgrounds::gentoo
+x11-wm/metacity::gentoo
 x11-wm/mutter::gentoo
