@@ -10,7 +10,7 @@ HOMEPAGE="https://developer.gnome.org/libwnck/stable/"
 
 LICENSE="LGPL-2+"
 SLOT="3"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gtk-doc +introspection startup-notification tools"
 
@@ -25,18 +25,11 @@ RDEPEND="
 	startup-notification? ( >=x11-libs/startup-notification-0.4 )
 "
 DEPEND="${RDEPEND}
+	>=dev-util/meson-0.50.0
 	>=dev-util/gtk-doc-am-1.9
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "
-
-src_prepare() {
-	# From GNOME:
-	# 	https://gitlab.gnome.org/GNOME/libwnck/commit/e41ee043be4c73cab2767d5010b2d0175b3bfaa6
-	eapply -R "${FILESDIR}"/${PN}-3.32.0-meson-use-install-dir-to-not-install-uninstalled-pc.patch
-
-	gnome2_src_prepare
-}
 
 src_configure() {
 	local emesonargs=(
