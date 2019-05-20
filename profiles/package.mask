@@ -56,6 +56,7 @@ gnome-base/gnome-flashback::gentoo
 gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-light::gentoo
 gnome-base/gnome-menus::gentoo
+gnome-base/gnome-panel::gentoo
 gnome-base/gnome-session::gentoo
 gnome-base/gnome-settings-daemon::gentoo
 gnome-base/gnome-shell::gentoo

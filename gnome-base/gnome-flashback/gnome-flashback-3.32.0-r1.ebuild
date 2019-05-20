@@ -42,3 +42,6 @@ DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.19.4
 	virtual/pkgconfig
 "
+PDEPEND="
+	gnome-base/gnome-panel
+"
