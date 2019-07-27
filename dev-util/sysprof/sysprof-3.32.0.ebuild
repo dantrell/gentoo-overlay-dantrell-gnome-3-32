@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome.org gnome2-utils meson systemd xdg
 
@@ -21,8 +21,9 @@ RDEPEND="
 	elogind? ( >=sys-auth/elogind-239.3 )
 	systemd? ( >=sys-apps/systemd-222:0= )
 "
+DEPEND="${RDEPEND}"
 # libxml2 required for glib-compile-resources; appstream-glib for appdata.xml developer_name tag translation
-DEPEND="${RDEPEND}
+BDEPEND="
 	dev-libs/appstream-glib
 	dev-libs/libxml2:2
 	dev-util/itstool

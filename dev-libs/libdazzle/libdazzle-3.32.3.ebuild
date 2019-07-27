@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome.org meson xdg vala virtualx
 
@@ -21,8 +21,10 @@ RDEPEND="
 	>=x11-libs/gtk+-3.24.0:3[introspection?]
 	introspection? ( dev-libs/gobject-introspection:= )
 "
+DEPEND="${RDEPEND}"
 # libxml2 required for glib-compile-resources
-DEPEND="${RDEPEND}
+BDEPEND="
+	>=dev-util/meson-0.49.0
 	vala? ( $(vala_depend) )
 	dev-libs/libxml2:2
 	virtual/pkgconfig
