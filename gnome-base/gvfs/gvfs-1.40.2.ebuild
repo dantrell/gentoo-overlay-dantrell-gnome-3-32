@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit gnome.org gnome2-utils meson systemd xdg
 
@@ -32,7 +32,7 @@ RDEPEND="
 		sys-libs/libcap )
 	http? (
 		dev-libs/libxml2:2
-		>=net-libs/libsoup-2.42.0:2.4 )
+		>=net-libs/libsoup-2.58.0:2.4 )
 	zeroconf? ( >=net-dns/avahi-0.6 )
 	udev? ( >=virtual/libgudev-147:= )
 	fuse? ( >=sys-fs/fuse-2.8.0:0 )
@@ -58,14 +58,21 @@ RDEPEND="
 	nfs? ( >=net-fs/libnfs-1.9.8 )
 	net-misc/openssh
 "
-DEPEND="${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
+	>=dev-util/meson-0.49
 	app-text/docbook-xsl-stylesheets
 	app-text/docbook-xml-dtd:4.2
 	dev-libs/libxslt
-	>=sys-devel/gettext-0.19.4
+	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	dev-util/gdbus-codegen
 "
+
+PATCHES=(
+	# from gnome-3-32 branch, fixes RPATH of libgvfsdaemon.so
+	"${FILESDIR}"/${PN}-1.40.2-gvfsdaemon-rpath.patch
+)
 
 src_configure() {
 	local enable_logind="false"

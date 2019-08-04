@@ -44,6 +44,12 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
 
+PATCHES=(
+	# From GNOME:
+	# 	https://gitlab.gnome.org/GNOME/gnome-contacts/commit/c5eee38cd2556403a640a0a4c11d36cbf9a5a798
+	"${FILESDIR}"/${PN}-3.33.4-window-disambiguate-gtk-headerbar.patch
+)
+
 src_prepare() {
 	xdg_src_prepare
 	vala_src_prepare
