@@ -20,7 +20,6 @@ REQUIRED_USE="
 "
 
 # virtual/pkgconfig needed at runtime, bug #505408
-# We force glib and g-i to be in sync by this way as explained in bug #518424
 RDEPEND="
 	>=dev-libs/gobject-introspection-common-${PV}
 	>=dev-libs/glib-2.58.0:2

@@ -90,6 +90,18 @@ src_prepare() {
 }
 
 src_configure() {
+	# Prevent sandbox violations when a plugin needs write access to
+	# /dev/dri/card* in its init phase, bug #358755
+	for card in /dev/dri/card* ; do
+		addpredict "${card}"
+	done
+
+	# Prevent sandbox violations when a plugin needs write access to
+	# /dev/dri/render* in its init phase, bug #358755
+	for render in /dev/dri/render* ; do
+		addpredict "${render}"
+	done
+
 	# Disabled: sample-python, zeitgeist-dp
 	# brasero-disc-recorder and gromit require gtk+[X], but totem itself does
 	# for now still too, so no point in optionality based on that yet.
