@@ -2,7 +2,7 @@
 
 EAPI="6"
 PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
-PYTHON_REQ_USE="threads"
+PYTHON_REQ_USE="threads(+)"
 
 inherit gnome.org gnome2-utils meson vala xdg python-single-r1
 
