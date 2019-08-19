@@ -9,9 +9,9 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/mutter/"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 
-IUSE="ck debug deprecated-background elogind input_devices_wacom +introspection systemd test +udev +vanilla-mipmapping wayland"
+IUSE="ck debug deprecated-background elogind input_devices_wacom +introspection screencast systemd test +udev +vanilla-mipmapping wayland"
 REQUIRED_USE="
 	?? ( ck elogind systemd )
 	wayland? ( udev || ( elogind systemd ) )
@@ -57,6 +57,7 @@ RDEPEND="
 	input_devices_wacom? ( >=dev-libs/libwacom-0.13 )
 	introspection? ( >=dev-libs/gobject-introspection-1.42:= )
 	udev? ( >=virtual/libgudev-232:= )
+	screencast? ( >=media-video/pipewire-0.2.2:0/0.2 )
 	wayland? (
 		>=dev-libs/libinput-1.4
 		>=dev-libs/wayland-1.13.0
@@ -106,7 +107,7 @@ src_configure() {
 		-D glx=true
 		$(meson_use wayland)
 		$(meson_use wayland native_backend)
-		-D remote_desktop=false
+		$(meson_use screencast remote_desktop)
 		$(meson_use wayland egl_device)
 		-D wayland_eglstream=false
 		$(meson_use udev)

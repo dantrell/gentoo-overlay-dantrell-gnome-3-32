@@ -29,7 +29,7 @@ COMMON_DEPEND="
 	>=dev-libs/json-glib-0.10
 	gconf? ( >=gnome-base/gconf-2:2 )
 	wayland? ( media-libs/mesa[egl,gles2] )
-	!wayland? ( media-libs/mesa[gles2] )
+	!wayland? ( media-libs/mesa[gles2,X(+)] )
 	media-libs/libepoxy
 	x11-libs/libXcomposite
 

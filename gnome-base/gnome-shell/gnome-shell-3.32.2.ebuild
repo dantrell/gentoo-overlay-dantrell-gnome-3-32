@@ -12,7 +12,7 @@ LICENSE="GPL-2+ LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+bluetooth deprecated-background elogind gtk-doc +ibus +networkmanager systemd telepathy vanilla-async vanilla-gc vanilla-motd vanilla-screen"
+IUSE="+bluetooth deprecated-background elogind gtk-doc +ibus +networkmanager systemd telepathy vanilla-async vanilla-gc vanilla-motd vanilla-screen wayland"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	?? ( elogind systemd )
 "
@@ -56,7 +56,8 @@ COMMON_DEPEND="
 
 	${PYTHON_DEPS}
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
-	media-libs/mesa
+	wayland? ( media-libs/mesa )
+	!wayland? ( media-libs/mesa[X(+)] )
 "
 # Runtime-only deps are probably incomplete and approximate.
 # Introspection deps generated using:
