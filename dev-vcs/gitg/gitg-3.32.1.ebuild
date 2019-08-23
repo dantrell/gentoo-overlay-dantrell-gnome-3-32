@@ -2,7 +2,7 @@
 
 EAPI="7"
 PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
-VALA_MIN_API_VERSION="0.32" # Needed when gtk+-3.20 is found
+VALA_MIN_API_VERSION="0.40"
 
 inherit gnome.org gnome2-utils meson python-r1 vala xdg-utils
 
