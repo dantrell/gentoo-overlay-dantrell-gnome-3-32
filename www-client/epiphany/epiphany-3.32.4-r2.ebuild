@@ -63,6 +63,21 @@ src_configure() {
 	meson_src_configure
 }
 
+src_install() {
+	meson_src_install
+
+	# Do not install files owned by libhandy
+	rm -f "${ED}"/usr/include/libhandy-*/handy.h
+	rm -f "${ED}"/usr/include/libhandy-*/hdy-*.h
+	rm -f "${ED}"/usr/lib*/girepository-1.0/Handy-*typelib
+	rm -f "${ED}"/usr/lib*/libhandy-*.so
+	rm -f "${ED}"/usr/lib*/libhandy-*.so.0
+	rm -f "${ED}"/usr/lib*/pkgconfig/libhandy-*.pc
+	rm -f "${ED}"/usr/share/gir-1.0/Handy-0.0.gir
+	rm -f "${ED}"/usr/share/vala/vapi/libhandy-*.deps
+	rm -f "${ED}"/usr/share/vala/vapi/libhandy-*.vapi
+}
+
 src_test() {
 	virtx meson_src_test
 }
