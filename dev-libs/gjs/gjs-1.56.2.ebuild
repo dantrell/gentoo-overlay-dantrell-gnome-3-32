@@ -17,7 +17,7 @@ RESTRICT="!test? ( test )"
 
 RDEPEND="
 	>=dev-libs/glib-2.54.0
-	>=dev-libs/gobject-introspection-1.53.4:=
+	>=dev-libs/gobject-introspection-1.57.2:=
 
 	readline? ( sys-libs/readline:0= )
 	dev-lang/spidermonkey:60=
@@ -45,7 +45,9 @@ src_configure() {
 		$(use_with gtk) \
 		$(use_enable readline) \
 		$(use_with test dbus-tests) \
-		$(use_with test xvfb-tests)
+		--disable-installed-tests \
+		--without-xvfb-tests # disables Makefile spawning Xvfb for us, as we do it ourselves:
+		# https://gitlab.gnome.org/GNOME/gjs/issues/280
 }
 
 src_install() {
@@ -62,5 +64,5 @@ src_install() {
 }
 
 src_test() {
-	virtx default
+	virtx dbus-run-session emake check || die
 }
