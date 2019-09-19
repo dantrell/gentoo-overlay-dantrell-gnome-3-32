@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6,3_7} )
+PYTHON_COMPAT=( python{2_7,3_5,3_6,3_7} )
 
 inherit gnome.org gnome2-utils meson python-any-r1 systemd xdg
 
@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cue exif ffmpeg gif gsf +gstreamer iptc +iso +jpeg libav +pdf +playlist raw +rss seccomp test +taglib +tiff upower +xml xmp xps"
 REQUIRED_USE="cue? ( gstreamer )" # cue is currently only supported via gstreamer, not ffmpeg/libav

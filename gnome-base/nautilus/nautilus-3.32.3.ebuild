@@ -9,7 +9,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Nautilus"
 
 LICENSE="GPL-3+ LGPL-2.1+"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="*"
 
 IUSE="gnome gtk-doc +introspection packagekit +previewer selinux sendto vanilla-menu vanilla-menu-compress vanilla-rename vanilla-search vanilla-thumbnailer"
 
@@ -68,16 +68,16 @@ src_prepare() {
 	if ! use vanilla-menu; then
 		if ! use vanilla-menu-compress; then
 			eapply "${FILESDIR}"/${PN}-3.30.0-use-old-compress-extension.patch
-			eapply "${FILESDIR}"/${PN}-3.30.0-reorder-context-menu-rebased.patch
+			eapply "${FILESDIR}"/${PN}-3.32.3-reorder-context-menu-rebased.patch
 		else
-			eapply "${FILESDIR}"/${PN}-3.30.0-reorder-context-menu.patch
+			eapply "${FILESDIR}"/${PN}-3.32.3-reorder-context-menu.patch
 		fi
 	elif ! use vanilla-menu-compress; then
 		eapply "${FILESDIR}"/${PN}-3.30.0-use-old-compress-extension.patch
 	fi
 
 	if ! use vanilla-rename; then
-		eapply "${FILESDIR}"/${PN}-3.32.1-support-slow-double-click-to-rename.patch
+		eapply "${FILESDIR}"/${PN}-3.32.3-support-slow-double-click-to-rename.patch
 	fi
 
 	if ! use vanilla-search; then
@@ -90,7 +90,7 @@ src_prepare() {
 		# From GNOME:
 		# 	https://gitlab.gnome.org/GNOME/gnome-desktop/commit/8b1db18aa75c2684b513481088b4e289b5c8ed92
 		# 	https://gitlab.gnome.org/GNOME/nautilus/commit/673c81cf9f1d68b71041220e6e44624dee44dbfc
-		eapply "${FILESDIR}"/${PN}-3.32.1-dont-sandbox-thumbnailers-on-linux.patch
+		eapply "${FILESDIR}"/${PN}-3.32.3-dont-sandbox-thumbnailers-on-linux.patch
 	fi
 
 	xdg_src_prepare

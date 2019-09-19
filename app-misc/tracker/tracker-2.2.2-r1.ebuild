@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_4,3_5,3_6,3_7} )
+PYTHON_COMPAT=( python{3_5,3_6,3_7} )
 
 inherit bash-completion-r1 gnome.org linux-info meson python-any-r1 systemd vala xdg
 
@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/Tracker"
 
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0/2.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 #RESTRICT="!test? ( test )"
 IUSE="gtk-doc +miners networkmanager stemmer"

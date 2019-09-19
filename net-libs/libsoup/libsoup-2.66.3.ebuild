@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Projects/libsoup"
 
 LICENSE="LGPL-2.1+"
 SLOT="2.4"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="gssapi gtk-doc +introspection samba ssl test +vala"
 REQUIRED_USE="vala? ( introspection )"
@@ -73,7 +73,7 @@ multilib_src_configure() {
 		-Dgnome=false
 		-Dintrospection=$(multilib_native_usex introspection true false)
 		-Dvapi=$(multilib_native_usex vala true false)
-		-Ddoc=$(multilib_native_usex gtk-doc true false)
+		-Dgtk_doc=$(multilib_native_usex gtk-doc true false)
 		$(meson_use test tests)
 	)
 	meson_src_configure
