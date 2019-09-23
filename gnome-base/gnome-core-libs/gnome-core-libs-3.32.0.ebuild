@@ -24,7 +24,7 @@ RDEPEND="
 	>=media-libs/clutter-1.26:1.0
 	>=x11-libs/gtk+-3.24:3[cups?]
 	>=dev-libs/atk-2.32
-	>=x11-libs/libwnck-3.31.4:3
+	>=x11-libs/libwnck-3.32.0:3
 	>=gnome-base/librsvg-2.40.20
 	>=gnome-base/gnome-desktop-${PV}:3
 	>=x11-libs/startup-notification-0.12
@@ -35,10 +35,6 @@ RDEPEND="
 	>=media-libs/gstreamer-1.14.4:1.0
 	>=media-libs/gst-plugins-base-1.14.4:1.0
 	>=media-libs/gst-plugins-good-1.14.4:1.0
-
-	dev-lang/vala:0.$(echo $(( ${VALA_MAX_API_VERSION/0./} - 4 )))
-	dev-lang/vala:0.$(echo $(( ${VALA_MAX_API_VERSION/0./} - 2 )))
-	dev-lang/vala:${VALA_MAX_API_VERSION}
 
 	python? ( >=dev-python/pygobject-${PV}:3 )
 "
