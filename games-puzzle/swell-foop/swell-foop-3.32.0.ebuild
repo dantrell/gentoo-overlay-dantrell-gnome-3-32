@@ -1,6 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
+# From GNOME:
+# 	https://gitlab.gnome.org/GNOME/swell-foop/issues/13
+VALA_MAX_API_VERSION="0.42"
 
 inherit gnome.org gnome2-utils meson vala xdg
 
