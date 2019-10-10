@@ -2,6 +2,7 @@ app-accessibility/accerciser::gentoo
 app-accessibility/at-spi2-atk::gentoo
 app-accessibility/at-spi2-core::gentoo
 app-accessibility/orca::gentoo
+app-crypt/seahorse::gentoo
 app-editors/gedit-plugins::gentoo
 app-editors/gedit::gentoo
 app-misc/bijiben::gentoo
@@ -47,6 +48,7 @@ gnome-base/gnome-core-libs::gentoo
 gnome-base/gnome-desktop::gentoo
 gnome-base/gnome-extra-apps::gentoo
 gnome-base/gnome-flashback::gentoo
+gnome-base/gnome-keyring::gentoo
 gnome-base/gnome-light::gentoo
 gnome-base/gnome-panel::gentoo
 gnome-base/gnome-session::gentoo
