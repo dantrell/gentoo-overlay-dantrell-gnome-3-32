@@ -107,7 +107,7 @@ src_configure() {
 		-Dudev_dir="$(get_udevdir)"
 		-Dalsa=true
 		$(meson_use udev gudev)
-		$(meson_use colord)
+		$(meson_use colord color)
 		$(meson_use cups)
 		$(meson_use networkmanager network_manager)
 		-Drfkill=true
