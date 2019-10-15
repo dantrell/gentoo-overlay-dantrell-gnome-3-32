@@ -17,7 +17,7 @@ IUSE=""
 # FIXME: could libnotify be made optional ?
 # FIXME: selinux automagic support
 RDEPEND="
-	>=dev-libs/glib-2.28:2
+	>=dev-libs/glib-2.58:2
 	>=x11-libs/gtk+-3:3
 	>=gnome-base/nautilus-3.27.90
 	media-libs/libcanberra[gtk3]
@@ -26,11 +26,9 @@ RDEPEND="
 	>=x11-libs/libnotify-0.7:=
 "
 DEPEND="${RDEPEND}
-	!<gnome-base/gnome-control-center-3.9
-	app-text/yelp-tools
 	app-text/docbook-xml-dtd:4.1.2
-	>=dev-util/intltool-0.35
-	sys-devel/gettext
+	dev-util/itstool
+	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "
 

@@ -18,7 +18,7 @@ LICENSE="
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="accessibility audit branding elogind fprint +introspection ipv6 plymouth selinux smartcard systemd tcpd test wayland xinerama"
+IUSE="accessibility audit bluetooth-sound branding elogind fprint +introspection ipv6 plymouth selinux smartcard systemd tcpd test wayland xinerama"
 REQUIRED_USE="
 	?? ( elogind systemd )
 	wayland? ( || ( elogind systemd ) )
@@ -202,6 +202,13 @@ src_install() {
 	# gdm user's home directory
 	keepdir /var/lib/gdm
 	fowners gdm:gdm /var/lib/gdm
+
+	if ! use bluetooth-sound ; then
+		# Workaround https://gitlab.freedesktop.org/pulseaudio/pulseaudio/merge_requests/10
+		# bug #679526
+		insinto /var/lib/gdm/.config/pulse
+		doins "${FILESDIR}"/default.pa
+	fi
 
 	# install XDG_DATA_DIRS gdm changes
 	echo 'XDG_DATA_DIRS="/usr/share/gdm"' > 99xdg-gdm

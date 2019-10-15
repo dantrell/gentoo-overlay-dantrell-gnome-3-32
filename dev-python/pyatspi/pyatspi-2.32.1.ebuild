@@ -23,7 +23,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 "
 RDEPEND="${COMMON_DEPEND}
 	>=sys-apps/dbus-1
-	>=app-accessibility/at-spi2-core-2.20.2[introspection]
+	>=app-accessibility/at-spi2-core-2.32[introspection]
 	!<gnome-extra/at-spi-1.32.0-r1
 "
 DEPEND="${COMMON_DEPEND}
