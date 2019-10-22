@@ -3,7 +3,7 @@
 EAPI="6"
 GNOME2_LA_PUNT="yes"
 PYTHON_COMPAT=( python{3_5,3_6,3_7} )
-PYTHON_REQ_USE="threads(+)"
+PYTHON_REQ_USE="threads"
 
 inherit gnome2 python-single-r1
 
@@ -18,9 +18,9 @@ IUSE="+braille"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 COMMON_DEPEND="${PYTHON_DEPS}
-	>=app-accessibility/at-spi2-atk-2.30:2
-	>=app-accessibility/at-spi2-core-2.30:2[introspection]
-	>=dev-libs/atk-2.30
+	>=app-accessibility/at-spi2-atk-2.32:2
+	>=app-accessibility/at-spi2-core-2.32:2[introspection]
+	>=dev-libs/atk-2.32
 	>=dev-libs/glib-2.28:2
 	dev-python/gst-python:1.0[${PYTHON_USEDEP}]
 	>=dev-python/pygobject-3.18:3[${PYTHON_USEDEP}]
@@ -33,7 +33,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 RDEPEND="${COMMON_DEPEND}
 	>=app-accessibility/speech-dispatcher-0.8[python,${PYTHON_USEDEP}]
 	dev-libs/atk[introspection]
-	>=dev-python/pyatspi-2.30[${PYTHON_USEDEP}]
+	>=dev-python/pyatspi-2.32[${PYTHON_USEDEP}]
 	dev-python/setproctitle[${PYTHON_USEDEP}]
 	x11-libs/libwnck:3[introspection]
 	x11-libs/pango[introspection]

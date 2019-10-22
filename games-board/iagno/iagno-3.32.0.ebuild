@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit gnome2 meson vala
+inherit gnome.org gnome2-utils meson vala xdg
 
 DESCRIPTION="Dominate the board in a classic version of Reversi"
 HOMEPAGE="https://wiki.gnome.org/Apps/Iagno"
@@ -13,18 +13,17 @@ KEYWORDS="*"
 
 IUSE=""
 
-COMMON_DEPEND="
-	>=dev-libs/glib-2.40:2
-	>=gnome-base/librsvg-2.32.0:2
+RDEPEND="
 	>=media-libs/libcanberra-0.26[gtk3]
-	>=x11-libs/gtk+-3.15:3
+	>=dev-libs/glib-2.40.0:2
+	>=x11-libs/gtk+-3.22.23:3
+	>=gnome-base/librsvg-2.32.0:2
 "
-RDEPEND="${COMMON_DEPEND}
-	!<x11-themes/gnome-themes-standard-3.14
-"
+DEPEND="${RDEPEND}"
 # libxml2:2 needed for glib-compile-resources xml-stripblanks attributes
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
 	$(vala_depend)
+	gnome-base/librsvg:2[vala]
 	dev-libs/appstream-glib
 	dev-libs/libxml2:2
 	dev-util/itstool
@@ -33,6 +32,16 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
+	xdg_src_prepare
 	vala_src_prepare
-	gnome2_src_prepare
+}
+
+pkg_postinst() {
+	xdg_pkg_postinst
+	gnome2_schemas_update
+}
+
+pkg_postrm() {
+	xdg_pkg_postrm
+	gnome2_schemas_update
 }

@@ -76,7 +76,7 @@ src_prepare() {
 	gnome2_src_prepare
 
 	# Do not depend on adwaita-icon-theme, bug #326855, #391859
-	# https://bugs.freedesktop.org/show_bug.cgi?id=29942
+	# https://gitlab.freedesktop.org/xdg/default-icon-theme/issues/7
 	sed -e 's/adwaita-icon-theme >= $ADWAITA_ICON_THEME_REQUIRED//g' \
 		-i configure || die "sed failed"
 }
