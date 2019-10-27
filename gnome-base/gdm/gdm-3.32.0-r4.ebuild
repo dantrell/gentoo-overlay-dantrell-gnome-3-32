@@ -31,7 +31,7 @@ REQUIRED_USE="
 COMMON_DEPEND="
 	app-text/iso-codes
 	>=dev-libs/glib-2.44:2
-	virtual/libgudev:=
+	dev-libs/libgudev:=
 	>=x11-libs/gtk+-2.91.1:3
 	>=gnome-base/dconf-0.20
 	>=gnome-base/gnome-settings-daemon-3.1.4

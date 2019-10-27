@@ -36,7 +36,7 @@ COMMON_DEPEND="
 	>=net-misc/spice-gtk-0.32[gtk3(+),smartcard,usbredir]
 	app-misc/tracker:0/2.0
 	net-libs/webkit-gtk:4
-	>=virtual/libgudev-165:=
+	>=dev-libs/libgudev-165:=
 	rdp? ( net-misc/freerdp:= )
 "
 DEPEND="${COMMON_DEPEND}
