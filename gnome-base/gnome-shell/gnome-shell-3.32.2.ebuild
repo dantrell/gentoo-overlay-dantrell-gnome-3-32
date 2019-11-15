@@ -98,6 +98,7 @@ RDEPEND="${COMMON_DEPEND}
 		>=net-im/telepathy-logger-0.2.4[introspection]
 		>=net-libs/telepathy-glib-0.19[introspection] )
 	media-fonts/cantarell
+	media-fonts/dejavu
 "
 # avoid circular dependency, see bug #546134
 PDEPEND="
