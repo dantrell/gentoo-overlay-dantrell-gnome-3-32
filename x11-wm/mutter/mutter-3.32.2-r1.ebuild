@@ -9,7 +9,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/mutter/"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="ck debug deprecated-background elogind input_devices_wacom +introspection screencast systemd test +udev +vanilla-mipmapping wayland"
 REQUIRED_USE="
@@ -93,6 +93,8 @@ src_prepare() {
 	if ! use vanilla-mipmapping; then
 		eapply "${FILESDIR}"/${PN}-3.32.0-metashapedtexture-disable-mipmapping-emulation.patch
 	fi
+
+	eapply "${FILESDIR}"/${PN}-3.32.2-eglmesaext-include.patch
 
 	gnome2_src_prepare
 }
