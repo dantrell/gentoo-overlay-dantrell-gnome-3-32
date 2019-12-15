@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="test"
 
+RESTRICT="!test? ( test )"
+
 DEPEND="
 	>=dev-libs/glib-2.56.0:2
 	>=x11-libs/gtk+-3.24.0:3

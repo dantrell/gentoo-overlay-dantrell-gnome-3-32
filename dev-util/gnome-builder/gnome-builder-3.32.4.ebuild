@@ -19,6 +19,8 @@ KEYWORDS="*"
 IUSE="clang +devhelp doc +git glade gtk-doc spell sysprof test vala webkit"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
+RESTRICT="!test? ( test )"
+
 # When bumping, pay attention to all the included plugins/*/meson.build (and other) build files and the requirements within.
 # `grep -rI dependency * --include='meson.build'` can give a good initial idea for external deps and their double checking.
 # The listed RDEPEND order shold roughly match that output as well, with toplevel one first.

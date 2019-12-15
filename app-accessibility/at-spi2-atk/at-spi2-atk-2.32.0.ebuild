@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=sys-apps/dbus-1.5[${MULTILIB_USEDEP}]
 	>=dev-libs/glib-2.32:2[${MULTILIB_USEDEP}]
@@ -33,7 +35,7 @@ multilib_src_compile() {
 }
 
 multilib_src_test() {
-	virtx dbus-run-session meson test -C "${BUILD_DIR}" || die 'tests failed'
+	virtx dbus-run-session meson test -C "${BUILD_DIR}"
 }
 
 multilib_src_install() {

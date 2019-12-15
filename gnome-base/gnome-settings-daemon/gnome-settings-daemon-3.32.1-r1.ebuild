@@ -19,6 +19,8 @@ REQUIRED_USE="
 	wayland? ( udev )
 "
 
+RESTRICT="!test? ( test )"
+
 # >=polkit-0.114 for ITS translation rules of .policy files
 COMMON_DEPEND="
 	>=sci-geosciences/geocode-glib-3.10

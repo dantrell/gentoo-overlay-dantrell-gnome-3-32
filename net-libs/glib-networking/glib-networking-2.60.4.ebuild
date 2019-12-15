@@ -13,6 +13,8 @@ KEYWORDS="*"
 
 IUSE="+gnome +libproxy +ssl test"
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.55.1:2[${MULTILIB_USEDEP}]
 	libproxy? ( >=net-libs/libproxy-0.4.11-r1:=[${MULTILIB_USEDEP}] )

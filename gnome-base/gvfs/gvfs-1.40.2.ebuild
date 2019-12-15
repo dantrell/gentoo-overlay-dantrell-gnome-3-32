@@ -22,6 +22,8 @@ REQUIRED_USE="
 	udisks? ( udev )
 "
 
+RESTRICT="!test? ( test )"
+
 RDEPEND="
 	>=dev-libs/glib-2.57.2:2
 	afp? ( >=dev-libs/libgcrypt-1.2.2:0= )

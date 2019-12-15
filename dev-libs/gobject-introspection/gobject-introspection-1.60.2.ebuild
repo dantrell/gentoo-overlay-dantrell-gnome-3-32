@@ -19,6 +19,8 @@ REQUIRED_USE="
 	test? ( cairo )
 "
 
+RESTRICT="!test? ( test )"
+
 # virtual/pkgconfig needed at runtime, bug #505408
 RDEPEND="
 	>=dev-libs/gobject-introspection-common-${PV}

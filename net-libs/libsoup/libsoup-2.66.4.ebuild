@@ -15,6 +15,8 @@ KEYWORDS="*"
 IUSE="gssapi gtk-doc +introspection samba ssl test +vala"
 REQUIRED_USE="vala? ( introspection )"
 
+RESTRICT="!test? ( test )"
+
 DEPEND="
 	>=dev-libs/glib-2.38:2[${MULTILIB_USEDEP}]
 	>=dev-db/sqlite-3.8.2:3[${MULTILIB_USEDEP}]

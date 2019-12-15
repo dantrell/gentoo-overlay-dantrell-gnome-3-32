@@ -64,5 +64,5 @@ src_install() {
 }
 
 src_test() {
-	virtx dbus-run-session emake check || die
+	virtx dbus-run-session emake check
 }

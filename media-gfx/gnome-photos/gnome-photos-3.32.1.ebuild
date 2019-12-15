@@ -14,6 +14,8 @@ KEYWORDS="*"
 
 IUSE="flickr test upnp-av"
 
+RESTRICT="!test? ( test )"
+
 DEPEND="
 	media-libs/babl
 	>=x11-libs/cairo-1.14.0
