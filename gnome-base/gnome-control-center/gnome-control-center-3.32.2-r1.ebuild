@@ -122,6 +122,8 @@ PATCHES=(
 	# Make some panels and dependencies optional
 	# https://bugzilla.gnome.org/686840, 697478, 700145
 	"${FILESDIR}"/${PN}-3.32.1-optional.patch
+
+	"${FILESDIR}"/${PN}-3.32.2-fix-gcc10-fno-common.patch # fixed in 3.35.90
 )
 
 src_configure() {

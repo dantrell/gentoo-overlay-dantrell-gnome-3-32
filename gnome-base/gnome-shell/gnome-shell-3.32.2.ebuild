@@ -194,7 +194,7 @@ pkg_postinst() {
 		elog "media-libs/mesa if you do not have hardware 3D setup."
 	fi
 
-	# https://bugs.gentoo.org/show_bug.cgi?id=563084
+	# https://bugs.gentoo.org/563084
 	# TODO: Is this still the case after various fixed in 3.28 for detecting non-working KMS for wayland (to fall back to X)?
 	if has_version "x11-drivers/nvidia-drivers[-kms]"; then
 		ewarn "You will need to enable kms support in x11-drivers/nvidia-drivers,"

@@ -2,9 +2,8 @@
 
 EAPI="6"
 GNOME2_LA_PUNT="yes"
-PYTHON_COMPAT=( python2_7 )
 
-inherit fcaps gnome2 pam python-any-r1 virtualx
+inherit fcaps gnome2 pam virtualx
 
 DESCRIPTION="Password and keyring managing daemon"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeKeyring"
@@ -13,9 +12,9 @@ LICENSE="GPL-2+ LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="+caps pam selinux +ssh-agent test"
+IUSE="+caps pam selinux +ssh-agent"
 
-RESTRICT="!test? ( test )"
+RESTRICT="test"
 
 # Replace gkd gpg-agent with pinentry[gnome-keyring] one, bug #547456
 RDEPEND="
@@ -35,19 +34,13 @@ DEPEND="${RDEPEND}
 	dev-libs/libxslt
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
-	test? ( ${PYTHON_DEPS} )
 "
 PDEPEND="app-crypt/pinentry[gnome-keyring]" #570512
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.31.91-race-fix{1,2}.patch # fix race issues on start, where sometimes keyring doesn't work after login; from origin/master
-	"${FILESDIR}"/${PN}-3.31.91-ssh-tests-fix.patch
 	"${FILESDIR}"/${PN}-3.31.91-fix-musl.patch
 )
-
-pkg_setup() {
-	use test && python-any-r1_pkg_setup
-}
 
 src_prepare() {
 	# Disable stupid CFLAGS with debug enabled
@@ -66,11 +59,6 @@ src_configure() {
 		$(use_enable selinux) \
 		$(use_enable ssh-agent) \
 		--enable-doc
-}
-
-src_test() {
-	 "${EROOT}${GLIB_COMPILE_SCHEMAS}" --allow-any-name "${S}/schema" || die
-	 GSETTINGS_SCHEMA_DIR="${S}/schema" virtx emake check
 }
 
 pkg_postinst() {
