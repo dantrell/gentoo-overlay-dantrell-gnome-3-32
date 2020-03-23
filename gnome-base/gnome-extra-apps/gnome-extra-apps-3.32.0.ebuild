@@ -1,8 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-DESCRIPTION="Sub-meta package for the applications of GNOME 3"
+DESCRIPTION="Metapackage for GNOME 3 applications"
 HOMEPAGE="https://www.gnome.org/"
 
 LICENSE="metapackage"
@@ -11,9 +11,9 @@ KEYWORDS="*"
 
 IUSE="anjuta +bijiben boxes builder california +dino empathy epiphany +evolution flashback +fonts +games geary gnote latexila multiwriter +recipes +share +shotwell simple-scan +todo +tracker +usage"
 
-# Note to developers:
+# Cantarell doesn't provide support for modern emojis so we pair it with Noto,.Symbola, and Unifont:
 #
-# This is a wrapper for the extra apps integrated with GNOME 3
+# 	https://bugzilla.gnome.org/show_bug.cgi?id=762890
 RDEPEND="
 	>=gnome-base/gnome-core-libs-${PV}
 
@@ -32,7 +32,7 @@ RDEPEND="
 	>=gnome-extra/gnome-system-monitor-${PV}
 	>=gnome-extra/gnome-tweaks-${PV}
 	>=gnome-extra/gnome-weather-${PV}
-	>=gnome-extra/gucharmap-${PV}:2.90
+	>=gnome-extra/gucharmap-11.0.0:2.90
 	>=gnome-extra/nautilus-sendto-3.8.5
 	>=gnome-extra/sushi-${PV}
 	>=media-gfx/gnome-font-viewer-${PV}
@@ -58,7 +58,7 @@ RDEPEND="
 	evolution? ( >=mail-client/evolution-${PV} )
 	flashback? ( >=gnome-base/gnome-flashback-${PV} )
 	fonts? (
-		>=media-fonts/noto-20170403
+		>=media-fonts/noto-20181024
 		>=media-fonts/symbola-9.17
 		>=media-fonts/unifont-10.0.06 )
 	games? (
@@ -100,4 +100,5 @@ RDEPEND="
 	usage? ( >=sys-process/gnome-usage-${PV} )
 "
 DEPEND=""
-S=${WORKDIR}
+
+S="${WORKDIR}"

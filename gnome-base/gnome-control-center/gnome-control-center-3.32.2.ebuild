@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome.org gnome2-utils meson xdg
 
 DESCRIPTION="GNOME's main interface to configure various aspects of the desktop"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-control-center/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-control-center"
 
 LICENSE="GPL-2+"
 SLOT="2"

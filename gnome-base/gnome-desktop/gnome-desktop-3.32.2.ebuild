@@ -5,7 +5,7 @@ EAPI="6"
 inherit gnome2 meson virtualx
 
 DESCRIPTION="Library with common API for various GNOME modules"
-HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-desktop/"
+HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-desktop"
 
 LICENSE="GPL-2+ FDL-1.1+ LGPL-2+"
 SLOT="3/17" # subslot = libgnome-desktop-3 soname version

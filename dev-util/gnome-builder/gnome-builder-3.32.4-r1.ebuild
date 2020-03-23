@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 VALA_MIN_API_VERSION="0.36"
 DISABLE_AUTOFORMATTING=1
@@ -23,36 +23,33 @@ RESTRICT="!test? ( test )"
 
 # When bumping, pay attention to all the included plugins/*/meson.build (and other) build files and the requirements within.
 # `grep -rI dependency * --include='meson.build'` can give a good initial idea for external deps and their double checking.
-# The listed RDEPEND order shold roughly match that output as well, with toplevel one first.
+# The listed RDEPEND order shold roughly match that output as well, with toplevel one first then sorted by file path.
 # Most plugins have no extra requirements and default to enabled; we need to handle the ones with extra requirements. Many of
 # them have optional runtime dependencies, for which we try to at least notify the user via DOC_CONTENTS (but not all small
 # things); `grep -rI -e 'command-pattern.*=' -e 'push_arg'` can give a (spammy) idea, plus python imports in try/except.
 
-# FIXME: with_flatpak needs flatpak.pc >=0.8.0, ostree-1, libsoup-2.4.pc >=2.52.0 and ${LIBGIT_DEPS}
+# FIXME: plugin_flatpak needs flatpak.pc >=0.8.0, ostree-1, libsoup-2.4.pc >=2.52.0 and git plugin enabled
 # Editorconfig needs old pcre, with vte migrating away, might want it optional or ported to pcre2?
 # An introspection USE flag of a dep is required if any introspection based language plugin wants to use it (grep for gi.repository). Last full check at 3.28.4
 
-# These are needed with either USE=git or USE=flatpak (albeit the latter isn't supported yet)
-LIBGIT_DEPS="
-	dev-libs/libgit2[ssh,threads]
-	>=dev-libs/libgit2-glib-0.25.0[ssh]
-"
 # TODO: Handle llvm slots via llvm.eclass; see plugins/clang/meson.build
 RDEPEND="
 	>=dev-libs/libdazzle-3.31.90[introspection,vala?]
-	>=dev-libs/glib-2.58.0:2
-	>=x11-libs/gtk+-3.24.0:3[introspection]
-	>=x11-libs/gtksourceview-4.0:4[introspection]
+	>=dev-libs/glib-2.59.0:2
+	>=x11-libs/gtk+-3.22.26:3[introspection]
+	>=x11-libs/gtksourceview-4.0.0:4[introspection]
 	>=dev-libs/json-glib-1.2.0
-	>=dev-libs/jsonrpc-glib-3.30.1[vala?]
+	>=dev-libs/jsonrpc-glib-3.29.91[vala?]
 	>=x11-libs/pango-1.38.0
 	>=dev-libs/libpeas-1.22.0[python,${PYTHON_SINGLE_USEDEP}]
-	>=dev-libs/template-glib-3.31.90[introspection,vala?]
-	>=x11-libs/vte-0.40.2:2.91[vala?]
+	>=dev-libs/template-glib-3.28.0[introspection,vala?]
+	>=x11-libs/vte-0.40.2:2.91[introspection,vala?]
+	webkit? ( >=net-libs/webkit-gtk-2.22:4=[introspection] )
 	>=dev-libs/libxml2-2.9.0
-	git? ( ${LIBGIT_DEPS} )
+	git? ( dev-libs/libgit2[ssh,threads]
+		>=dev-libs/libgit2-glib-0.25.0[ssh]
+	)
 	dev-libs/libpcre:3
-	webkit? ( >=net-libs/webkit-gtk-2.12.0:4=[introspection] )
 
 	>=dev-libs/gobject-introspection-1.48.0:=
 	$(python_gen_cond_dep '
@@ -66,18 +63,16 @@ RDEPEND="
 		>=app-text/gspell-1.2.0
 		>=app-text/enchant-2:2=
 	)
-	sysprof? ( >=dev-util/sysprof-3.30.2:0/0[gtk] )
+	sysprof? ( >=dev-util/sysprof-3.31.90:0/0[gtk] )
 	vala? (
 		dev-lang/vala:=
 		$(vala_depend)
 	)
-" # We use subslot operator dep on vala in addition to $(vala_depend), because we have _runtime_
-#   usage in vala-pack plugin and need it rebuilt before removing an older vala it was built against
-# TODO: runtime ctags path finding..
-
+"
+DEPEND="${RDEPEND}"
 # desktop-file-utils required for tests, but we have it in deptree for xdg update-desktop-database anyway, so be explicit and unconditional
 # appstream-glib needed for validation with appstream-util with FEATURES=test
-DEPEND="${RDEPEND}
+BDEPEND="
 	doc? ( dev-python/sphinx )
 	gtk-doc? ( dev-util/gtk-doc
 		app-text/docbook-xml-dtd:4.3 )
@@ -85,7 +80,8 @@ DEPEND="${RDEPEND}
 		dev-libs/appstream-glib
 		sys-apps/dbus )
 	dev-util/desktop-file-utils
-	>=dev-util/meson-0.47.1
+	>=dev-util/meson-0.49.2
+	<dev-util/meson-0.52.0
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 "
@@ -113,6 +109,10 @@ that are currently available with packages include:
 # autotools stuff for autotools plugin; gtkmm/autoconf-archive for C++ template
 # gjs/gettext/mono/PHPize stuff, but most of these are probably installed for other reasons anyways, when needed inside IDE
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-3.32.4-optional-vala.patch
+)
+
 llvm_check_deps() {
 	has_version "sys-devel/clang:${LLVM_SLOT}"
 }
@@ -134,6 +134,7 @@ src_configure() {
 		-Dfusermount_wrapper=false # meant for flatpak builds
 		-Dtcmalloc=false
 		-Dplugin_editorconfig=true # needs libpcre
+		$(meson_use vala vapi)
 		$(meson_use vala plugin_vala)
 		$(meson_use doc help)
 		$(meson_use gtk-doc docs)
@@ -165,6 +166,7 @@ src_configure() {
 
 src_install() {
 	meson_src_install
+	python_optimize
 	if use doc; then
 		rm "${ED}"/usr/share/doc/gnome-builder/en/.buildinfo || die
 		rm "${ED}"/usr/share/doc/gnome-builder/en/objects.inv || die
@@ -179,14 +181,12 @@ src_install() {
 
 pkg_postinst() {
 	xdg_pkg_postinst
-	gnome2_icon_cache_update
 	gnome2_schemas_update
 	readme.gentoo_print_elog
 }
 
 pkg_postrm() {
 	xdg_pkg_postrm
-	gnome2_icon_cache_update
 	gnome2_schemas_update
 }
 

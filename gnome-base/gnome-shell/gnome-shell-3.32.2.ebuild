@@ -18,8 +18,6 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}
 "
 
 # libXfixes-5.0 needed for pointer barriers and #include <X11/extensions/Xfixes.h>
-# FIXME:
-#  * gstreamer support is currently automagic
 COMMON_DEPEND="
 	>=dev-libs/libcroco-0.6.8:0.6
 	>=gnome-extra/evolution-data-server-3.17.2:=
@@ -195,10 +193,20 @@ pkg_postinst() {
 	fi
 
 	# https://bugs.gentoo.org/563084
-	# TODO: Is this still the case after various fixed in 3.28 for detecting non-working KMS for wayland (to fall back to X)?
 	if has_version "x11-drivers/nvidia-drivers[-kms]"; then
 		ewarn "You will need to enable kms support in x11-drivers/nvidia-drivers,"
 		ewarn "otherwise Gnome will fail to start"
+	fi
+
+	if use systemd && ! systemd_is_booted; then
+		ewarn "You have installed GNOME Shell *with* systemd support"
+		ewarn "but the system was not booted using systemd."
+		ewarn "To correct this, reference: https://wiki.gentoo.org/wiki/Systemd"
+	fi
+
+	if ! use systemd; then
+		ewarn "You have installed GNOME Shell *without* systemd support."
+		ewarn "To report issues, see: https://github.com/dantrell/gentoo-project-gnome-without-systemd/blob/master/GOVERNANCE.md#bugs-and-other-issues"
 	fi
 }
 

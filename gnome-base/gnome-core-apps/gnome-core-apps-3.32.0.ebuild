@@ -1,10 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit eapi7-ver
-
-DESCRIPTION="Sub-meta package for the core applications integrated with GNOME 3"
+DESCRIPTION="Metapackage for GNOME 3 core applications"
 HOMEPAGE="https://www.gnome.org/"
 
 LICENSE="metapackage"
@@ -13,8 +11,6 @@ KEYWORDS="*"
 
 IUSE="+bluetooth +cdr cups"
 
-# Note to developers:
-# This is a wrapper for the core apps tightly integrated with GNOME 3
 RDEPEND="
 	>=gnome-base/gnome-core-libs-${PV}[cups?]
 
@@ -44,8 +40,6 @@ RDEPEND="
 
 	bluetooth? ( >=net-wireless/gnome-bluetooth-${PV} )
 	cdr? ( >=app-cdr/brasero-3.12.2 )
-
-	!gnome-base/gnome-applets
 "
 DEPEND=""
 
