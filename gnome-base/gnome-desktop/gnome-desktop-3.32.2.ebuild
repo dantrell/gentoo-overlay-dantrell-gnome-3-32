@@ -30,7 +30,6 @@ COMMON_DEPEND="
 		virtual/libudev:= )
 "
 RDEPEND="${COMMON_DEPEND}
-	!<gnome-base/gnome-desktop-2.32.1-r1:2[doc]
 	vanilla-thumbnailer? ( sys-apps/bubblewrap )
 "
 DEPEND="${COMMON_DEPEND}

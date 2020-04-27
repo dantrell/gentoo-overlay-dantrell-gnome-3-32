@@ -1,10 +1,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{3_6,3_7,3_8} pypy )
 VALA_USE_DEPEND="vapigen"
 
-inherit cmake-utils db-use flag-o-matic gnome2 python-any-r1 systemd vala virtualx
+inherit cmake-utils db-use flag-o-matic gnome2 systemd vala virtualx
 
 DESCRIPTION="Evolution groupware backend"
 HOMEPAGE="https://wiki.gnome.org/Apps/Evolution"
@@ -59,7 +58,6 @@ RDEPEND="
 	weather? ( >=dev-libs/libgweather-3.10:2= )
 "
 DEPEND="${RDEPEND}
-	${PYTHON_DEPS}
 	dev-util/gdbus-codegen
 	dev-util/gperf
 	gtk-doc? ( >=dev-util/gtk-doc-1.14 )
@@ -68,10 +66,6 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	vala? ( $(vala_depend) )
 "
-
-pkg_setup() {
-	python-any-r1_pkg_setup
-}
 
 # global scope PATCHES or DOCS array mustn't be used due to double default_src_prepare call
 src_prepare() {
