@@ -1,12 +1,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{2_7,3_6,3_7,3_8} )
+PYTHON_COMPAT=( python{2_7,3_6,3_7,3_8,3_9} )
 
 inherit gnome.org meson python-r1 virtualx xdg
 
 DESCRIPTION="Python bindings for GObject Introspection"
-HOMEPAGE="https://wiki.gnome.org/Projects/PyGObject"
+HOMEPAGE="https://pygobject.readthedocs.io/"
 
 LICENSE="LGPL-2.1+"
 SLOT="3"

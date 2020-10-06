@@ -1,10 +1,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 PYTHON_REQ_USE="threads(+)"
 
-inherit gnome.org gnome2-utils meson vala xdg python-single-r1
+inherit gnome.org gnome2-utils meson virtualx xdg python-single-r1
 
 DESCRIPTION="Media player for GNOME"
 HOMEPAGE="https://wiki.gnome.org/Apps/Videos"
@@ -13,22 +13,19 @@ LICENSE="GPL-2+ LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="cdr gtk-doc +introspection lirc nautilus +python test vala vanilla-thumbnailer"
+IUSE="gtk-doc +introspection nautilus +python test vanilla-thumbnailer"
 # see bug #359379
 REQUIRED_USE="
 	python? ( introspection ${PYTHON_REQUIRED_USE} )
-	vala? ( introspection )
 "
 
 RESTRICT="!test? ( test )"
 
-# FIXME:
-# Runtime dependency on gnome-session-2.91
-COMMON_DEPEND="
+DEPEND="
 	>=dev-libs/glib-2.43.4:2
-	>=x11-libs/gtk+-3.19.4:3[X,introspection?]
+	>=x11-libs/gtk+-3.19.4:3[introspection?]
 	>=media-libs/gstreamer-1.6.0:1.0
-	>=media-libs/gst-plugins-base-1.6.0:1.0[X,pango]
+	>=media-libs/gst-plugins-base-1.6.0:1.0[pango]
 	>=media-libs/gst-plugins-good-1.6.0:1.0
 	>=media-libs/grilo-0.3.0:0.3[playlist]
 	>=dev-libs/libpeas-1.1.0[gtk]
@@ -38,13 +35,10 @@ COMMON_DEPEND="
 	>=media-libs/clutter-gtk-1.8.1:1.0
 	gnome-base/gnome-desktop:3=
 	gnome-base/gsettings-desktop-schemas
-	x11-libs/libX11
 	>=x11-libs/cairo-1.14
 	x11-libs/gdk-pixbuf:2
 	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
 
-	cdr? ( >=dev-libs/libxml2-2.6:2 )
-	lirc? ( app-misc/lirc )
 	nautilus? ( >=gnome-base/nautilus-2.91.3 )
 	python? (
 		${PYTHON_DEPS}
@@ -53,34 +47,32 @@ COMMON_DEPEND="
 		')
 	)
 "
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	media-plugins/grilo-plugins:0.3
 	media-plugins/gst-plugins-meta:1.0
 	media-plugins/gst-plugins-taglib:1.0
 	x11-themes/adwaita-icon-theme
 	python? (
+		x11-libs/pango[introspection?]
 		>=dev-libs/libpeas-1.1.0[python,${PYTHON_SINGLE_USEDEP}]
 		$(python_gen_cond_dep '
 			dev-python/dbus-python[${PYTHON_MULTI_USEDEP}]
 		')
 	)
 "
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
 	dev-lang/perl
-	app-text/docbook-xml-dtd:4.5
-	gtk-doc? ( >=dev-util/gtk-doc-1.14 )
+	gtk-doc? ( >=dev-util/gtk-doc-1.14
+		app-text/docbook-xml-dtd:4.5 )
 	dev-util/itstool
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
 	x11-base/xorg-proto
-	vala? ( $(vala_depend) )
 "
 # perl for pod2man
-# docbook-xml-dtd is needed for user doc
 # Prevent dev-python/pylint dep, bug #482538
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-3.32.0-control-plugins.patch # Do not force all plugins
 	"${FILESDIR}"/${PN}-3.26-gst-inspect-sandbox.patch # Allow disabling calls to gst-inspect (sandbox issue)
 )
 
@@ -96,7 +88,8 @@ src_prepare() {
 			-i data/totem.thumbnailer.in
 	fi
 
-	use vala && vala_src_prepare
+	# Drop pointless samplepython plugin from build
+	sed -e '/samplepython/d' -i src/plugins/meson.build || die
 	xdg_src_prepare
 }
 
@@ -113,23 +106,10 @@ src_configure() {
 		addpredict "${render}"
 	done
 
-	# Disabled: sample-python, sample-vala, zeitgeist-dp
-	# brasero-disc-recorder and gromit require gtk+[X], but totem itself does
-	# for now still too, so no point in optionality based on that yet.
-	local plugins="apple-trailers,autoload-subtitles"
-	plugins+=",im-status,gromit,media-player-keys,ontop"
-	plugins+=",properties,recent,screensaver,screenshot"
-	plugins+=",skipto,variable-rate,vimeo"
-	use cdr && plugins+=",brasero-disc-recorder"
-	use lirc && plugins+=",lirc"
-	use nautilus && plugins+=",save-file"
-	use python && plugins+=",dbusservice,pythonconsole,opensubtitles"
-	use vala && plugins+=",rotation"
-
 	local emesonargs=(
 		-Denable-easy-codec-installation=yes
 		-Denable-python=$(usex python yes no)
-		-Dwith-plugins=${plugins}
+		-Dwith-plugins=auto
 		$(meson_use gtk-doc enable-gtk-doc)
 		-Denable-introspection=$(usex introspection yes no)
 		-Dgst-inspect=false
@@ -140,18 +120,20 @@ src_configure() {
 src_install() {
 	meson_src_install
 	if use python ; then
-		python_optimize "${ED}"usr/$(get_libdir)/totem/plugins/
+		python_optimize "${ED}"/usr/$(get_libdir)/totem/plugins/
 	fi
 }
 
 pkg_postinst() {
 	xdg_pkg_postinst
-	gnome2_icon_cache_update
 	gnome2_schemas_update
 }
 
 pkg_postrm() {
 	xdg_pkg_postrm
-	gnome2_icon_cache_update
 	gnome2_schemas_update
+}
+
+src_test() {
+	virtx meson_src_test
 }

@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{3_6,3_7,3_8} )
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 PYTHON_REQ_USE="threads(+)"
 
 inherit gnome.org gnome2-utils meson xdg python-single-r1
@@ -11,7 +11,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Videos"
 
 LICENSE="GPL-2+ LGPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="cdr gtk-doc +introspection lirc nautilus +python test vanilla-thumbnailer"
 # see bug #359379

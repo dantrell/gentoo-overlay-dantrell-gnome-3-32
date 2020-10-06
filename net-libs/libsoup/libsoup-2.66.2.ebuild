@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{3_6,3_7,3_8} )
+PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
 VALA_USE_DEPEND="vapigen"
 
 inherit gnome2 meson multilib-minimal python-any-r1 vala
@@ -33,7 +33,7 @@ DEPEND="${RDEPEND}
 	>=dev-util/gtk-doc-am-1.20
 	>=dev-util/intltool-0.35
 	sys-devel/gettext
-	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
+	virtual/pkgconfig
 	>=dev-libs/glib-2.40:2[${MULTILIB_USEDEP}]
 	vala? ( $(vala_depend) )
 "
