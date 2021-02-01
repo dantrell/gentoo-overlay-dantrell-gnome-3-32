@@ -17,7 +17,6 @@ KEYWORDS="*"
 IUSE="+introspection +python gtk-doc spell vala"
 REQUIRED_USE="python? ( introspection ${PYTHON_REQUIRED_USE} ) spell? ( python )"
 
-# X libs are not needed for OSX (aqua)
 DEPEND="
 	>=dev-libs/glib-2.44:2
 	>=x11-libs/gtk+-3.22.0:3[introspection?]

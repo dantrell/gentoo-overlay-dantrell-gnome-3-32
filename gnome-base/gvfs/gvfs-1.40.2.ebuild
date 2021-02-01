@@ -50,7 +50,9 @@ RDEPEND="
 	mtp? (
 		>=dev-libs/libusb-1.0.21
 		>=media-libs/libmtp-1.1.15 )
-	samba? ( >=net-fs/samba-4[client] )
+	samba? (
+		sys-libs/libunwind:=
+		>=net-fs/samba-4[client] )
 	archive? ( app-arch/libarchive:= )
 	cdda? (
 		dev-libs/libcdio:0=

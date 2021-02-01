@@ -54,7 +54,7 @@ DEPEND="${COMMON_DEPEND}
 "
 # These are called via exec():
 # sys-fs/mtools mcopy for unattended file copying for files that libarchive doesn't support
-# virtual/cdrtools mkisofs is needed for unattended installer secondary disk image creation
+# app-cdr/cdrtools mkisofs is needed for unattended installer secondary disk image creation
 # app-emulation/libguestfs virt-sysprep is used for VM cloing, if not there, it logs debug and doesn't function
 # sys-apps/policycoreutils restorecon is used for checking selinux context
 # app-emulation/libvirt virsh used for various checks (and we need the library anyways)
@@ -66,7 +66,7 @@ RDEPEND="${COMMON_DEPEND}
 	>=app-emulation/libvirt-2.0[libvirtd,qemu]
 	>=app-emulation/qemu-1.3.1[spice,smartcard,usbredir]
 	sys-fs/mtools
-	virtual/cdrtools
+	app-cdr/cdrtools
 	sys-auth/polkit
 "
 
