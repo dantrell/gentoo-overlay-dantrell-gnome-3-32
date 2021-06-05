@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 VALA_MIN_API_VERSION="0.26"
 VALA_USE_DEPEND="vapigen"
 
@@ -43,7 +43,7 @@ RDEPEND="${DEPEND}
 	gnome-base/gvfs
 "
 BDEPEND="
-	${vala_depend}
+	$(vala_depend)
 	app-text/docbook-xml-dtd:4.1.2
 	gtk-doc? ( >=dev-util/gtk-doc-1 )
 	dev-util/itstool

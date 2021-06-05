@@ -5,7 +5,7 @@ EAPI="7"
 inherit gnome.org gnome2-utils meson vala xdg
 
 DESCRIPTION="Make lines of the same color to win"
-HOMEPAGE="https://wiki.gnome.org/Apps/Four-in-a-row"
+HOMEPAGE="https://wiki.gnome.org/Apps/Four-in-a-row https://gitlab.gnome.org/GNOME/four-in-a-row"
 
 # Code and most themes are GPL-3+, CC-BY-SA-3.0 is user help license in v3.32.0
 LICENSE="GPL-3+ CC-BY-SA-3.0"

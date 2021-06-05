@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
 inherit gnome.org gnome2-utils meson pax-utils python-single-r1 virtualx xdg
 
@@ -102,7 +102,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 # avoid circular dependency, see bug #546134
 PDEPEND="
-	>=gnome-base/gdm-3.5[introspection]
+	>=gnome-base/gdm-3.5[introspection(+)]
 	>=gnome-base/gnome-control-center-3.26[bluetooth(+)?,networkmanager(+)?]
 "
 DEPEND="${COMMON_DEPEND}
