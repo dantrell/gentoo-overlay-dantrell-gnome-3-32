@@ -2,7 +2,7 @@
 
 EAPI="6"
 
-inherit gnome.org meson multilib-minimal virtualx xdg
+inherit flag-o-matic gnome.org meson multilib-minimal virtualx xdg
 
 DESCRIPTION="Gtk module for bridging AT-SPI to Atk"
 HOMEPAGE="https://wiki.gnome.org/Accessibility"
@@ -27,6 +27,9 @@ DEPEND="${RDEPEND}
 "
 
 multilib_src_configure() {
+	# Work around -fno-common (GCC 10 default)
+	append-flags -fcommon
+
 	meson_src_configure
 }
 

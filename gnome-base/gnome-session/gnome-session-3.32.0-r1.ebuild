@@ -28,7 +28,7 @@ COMMON_DEPEND="
 	>=gnome-base/gnome-desktop-3.18:3=
 	>=dev-libs/json-glib-0.10
 	gconf? ( >=gnome-base/gconf-2:2 )
-	wayland? ( media-libs/mesa[egl,gles2] )
+	wayland? ( media-libs/mesa[egl(+),gles2] )
 	!wayland? ( media-libs/mesa[gles2,X(+)] )
 	media-libs/libepoxy
 	x11-libs/libXcomposite

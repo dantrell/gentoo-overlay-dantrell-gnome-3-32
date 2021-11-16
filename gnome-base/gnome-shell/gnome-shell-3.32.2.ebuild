@@ -5,7 +5,7 @@ PYTHON_COMPAT=( python{3_8,3_9,3_10} )
 
 inherit gnome.org gnome2-utils meson pax-utils python-single-r1 virtualx xdg
 
-DESCRIPTION="Provides core UI functions for the GNOME 3 desktop"
+DESCRIPTION="Provides core UI functions for the GNOME desktop"
 HOMEPAGE="https://wiki.gnome.org/Projects/GnomeShell"
 
 LICENSE="GPL-2+ LGPL-2+"
@@ -54,7 +54,7 @@ COMMON_DEPEND="
 
 	${PYTHON_DEPS}
 	$(python_gen_cond_dep '
-		dev-python/pygobject:3[${PYTHON_MULTI_USEDEP}]
+		dev-python/pygobject:3[${PYTHON_USEDEP}]
 	')
 	wayland? ( media-libs/mesa )
 	!wayland? ( media-libs/mesa[X(+)] )

@@ -9,20 +9,19 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/sushi"
 
 LICENSE="GPL-2+"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
-IUSE="office"
+IUSE="office webkit"
 
 # Optional app-office/libreoffice support (OOo to pdf and then preview)
 # gtk+[X] optionally needed for sushi_create_foreign_window(); clutter-x11.h unconditionally included
-COMMON_DEPEND="
+DEPEND="
 	>=media-libs/clutter-1.11.4:1.0[X,introspection]
 	media-libs/clutter-gst:3.0[introspection]
 	>=media-libs/clutter-gtk-1.0.1:1.0[introspection]
 	>=app-text/evince-3.0[introspection]
 	media-libs/freetype:2
 	>=x11-libs/gdk-pixbuf-2.23.0[introspection]
-	>=dev-libs/gjs-1.40
 	>=dev-libs/glib-2.29.14:2
 	media-libs/gstreamer:1.0[introspection]
 	media-libs/gst-plugins-base:1.0[introspection]
@@ -31,14 +30,23 @@ COMMON_DEPEND="
 	>=media-libs/harfbuzz-0.9.9:=
 	>=dev-libs/gobject-introspection-1.54:=
 	media-libs/musicbrainz:5=
-	net-libs/webkit-gtk:4[introspection]
-
+	webkit? ( net-libs/webkit-gtk:4[introspection] )
+	>=dev-libs/gjs-1.40
 "
-DEPEND="${RDEPEND}
-	>=sys-devel/gettext-0.19.8
-	virtual/pkgconfig
-"
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	>=gnome-base/nautilus-3.1.90
 	office? ( app-office/libreoffice )
 "
+BDEPEND="
+	>=sys-devel/gettext-0.19.8
+	virtual/pkgconfig
+"
+
+src_prepare() {
+	if ! use webkit; then
+		# From GNOME Without Systemd:
+		eapply "${FILESDIR}"/${PN}-3.32.0-make-webkit-optional.patch
+	fi
+
+	xdg_src_prepare
+}

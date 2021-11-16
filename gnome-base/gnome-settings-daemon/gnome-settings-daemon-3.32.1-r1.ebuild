@@ -72,7 +72,7 @@ DEPEND="${COMMON_DEPEND}
 	${PYTHON_DEPS}
 	test? (
 		$(python_gen_any_dep 'dev-python/pygobject:3[${PYTHON_USEDEP}]')
-		$(python_gen_any_dep 'dev-python/dbusmock[${PYTHON_USEDEP}]')
+		$(python_gen_any_dep 'dev-python/python-dbusmock[${PYTHON_USEDEP}]')
 		gnome-base/gnome-session )
 	>=sys-devel/gettext-0.19.8
 	virtual/pkgconfig
@@ -81,7 +81,7 @@ DEPEND="${COMMON_DEPEND}
 python_check_deps() {
 	if use test; then
 		has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]" &&
-		has_version "dev-python/dbusmock[${PYTHON_USEDEP}]"
+		has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
 	fi
 }
 
