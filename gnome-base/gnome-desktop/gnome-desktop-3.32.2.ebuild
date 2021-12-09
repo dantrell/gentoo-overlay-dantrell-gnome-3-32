@@ -25,9 +25,7 @@ COMMON_DEPEND="
 	>=gnome-base/gsettings-desktop-schemas-3.27.0
 	introspection? ( >=dev-libs/gobject-introspection-0.9.7:= )
 	vanilla-thumbnailer? ( sys-libs/libseccomp )
-	udev? (
-		sys-apps/hwids
-		virtual/libudev:= )
+	udev? ( virtual/libudev:= )
 "
 RDEPEND="${COMMON_DEPEND}
 	vanilla-thumbnailer? ( sys-apps/bubblewrap )

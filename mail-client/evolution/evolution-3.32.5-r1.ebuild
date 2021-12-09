@@ -10,7 +10,7 @@ HOMEPAGE="https://wiki.gnome.org/Apps/Evolution"
 # Note: explicitly "|| ( LGPL-2 LGPL-3 )", not "LGPL-2+".
 LICENSE="|| ( LGPL-2 LGPL-3 ) CC-BY-SA-3.0 FDL-1.3+ OPENLDAP"
 SLOT="2.0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="archive +bogofilter geolocation gtk-doc highlight ldap spamassassin spell ssl +weather ytnef"
 

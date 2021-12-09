@@ -34,7 +34,7 @@ COMMON_DEPEND="
 	>=app-emulation/libvirt-glib-0.2.3
 	>=dev-libs/libxml2-2.7.8:2
 	>=net-misc/spice-gtk-0.32[gtk3(+),smartcard,usbredir]
-	app-misc/tracker:0/2.0
+	app-misc/tracker:0=
 	net-libs/webkit-gtk:4
 	>=dev-libs/libgudev-165:=
 	rdp? ( net-misc/freerdp:= )
@@ -61,7 +61,7 @@ DEPEND="${COMMON_DEPEND}
 # sys-auth/polkit used for making all libvirt system disks readable via "pkexec chmod a+r" that aren't already readable to the user (libvirt system importer)
 # app-emulation/qemu qemu-img used to convert image to QCOW2 format during copy
 RDEPEND="${COMMON_DEPEND}
-	>=app-misc/tracker-miners-2[iso]
+	>=app-misc/tracker-miners-2:0=[iso]
 	app-emulation/spice[smartcard]
 	>=app-emulation/libvirt-2.0[libvirtd,qemu]
 	>=app-emulation/qemu-1.3.1[spice,smartcard,usbredir]

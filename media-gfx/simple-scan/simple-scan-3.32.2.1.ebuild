@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 VALA_MIN_API_VERSION="0.34"
 
 inherit gnome.org gnome2-utils meson vala xdg
@@ -12,9 +12,9 @@ LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="colord webp" # packagekit
+IUSE="colord webp"
 
-COMMON_DEPEND="
+DEPEND="
 	>=dev-libs/glib-2.38:2
 	>=x11-libs/gtk+-3.22:3
 	>=sys-libs/zlib-1.2.3.1:=
@@ -27,11 +27,10 @@ COMMON_DEPEND="
 
 	virtual/jpeg:0=
 "
-# packagekit? ( >=app-admin/packagekit-base-1.1.5 )
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	x11-misc/xdg-utils
 "
-DEPEND="${COMMON_DEPEND}
+BDEPEND="
 	$(vala_depend)
 	dev-libs/libxml2:2
 	dev-util/itstool

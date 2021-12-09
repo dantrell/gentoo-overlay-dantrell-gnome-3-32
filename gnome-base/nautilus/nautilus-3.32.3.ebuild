@@ -11,7 +11,7 @@ LICENSE="GPL-3+ LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="gnome gtk-doc +introspection packagekit +previewer selinux sendto vanilla-menu vanilla-menu-compress vanilla-rename vanilla-search vanilla-thumbnailer"
+IUSE="gnome gtk-doc +introspection +previewer selinux sendto vanilla-menu vanilla-menu-compress vanilla-rename vanilla-search vanilla-thumbnailer"
 
 COMMON_DEPEND="
 	>=dev-libs/glib-2.55.1:2
@@ -23,7 +23,7 @@ COMMON_DEPEND="
 	vanilla-thumbnailer? ( sys-libs/libseccomp )
 	>=x11-libs/pango-1.28.3
 	selinux? ( >=sys-libs/libselinux-2.0 )
-	>=app-misc/tracker-2.0:=
+	>=app-misc/tracker-2.0:0=
 	x11-libs/libX11
 	>=dev-libs/libxml2-2.7.8:2
 	introspection? ( >=dev-libs/gobject-introspection-1.54:= )
@@ -38,7 +38,6 @@ DEPEND="${COMMON_DEPEND}
 	x11-base/xorg-proto
 "
 RDEPEND="${COMMON_DEPEND}
-	packagekit? ( app-admin/packagekit-base )
 	vanilla-thumbnailer? ( >=sys-apps/bubblewrap-0.3.1 )
 	sendto? ( !<gnome-extra/nautilus-sendto-3.0.1 )
 "
@@ -101,7 +100,7 @@ src_configure() {
 		$(meson_use gtk-doc docs)
 		$(meson_use sendto extensions) # image file properties, sendto support
 		$(meson_use introspection)
-		$(meson_use packagekit)
+		-Dpackagekit=false
 		$(meson_use selinux)
 		-Dprofiling=false
 		-Dtests=$(usex test all none)

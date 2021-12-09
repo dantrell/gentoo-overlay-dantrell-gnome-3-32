@@ -46,9 +46,6 @@ BDEPEND="
 PATCHES=(
 	# Disable apache tests until they are usable on Gentoo, bug #326957
 	"${FILESDIR}"/disable-apache-tests.patch
-	# Fix libsoup-2.4.vapi to be compatible with vala:0.46 and onwards. Included in 2.67.2
-	"${FILESDIR}"/${PN}-2.66.2-vala-0.46-compat.patch
-	"${FILESDIR}"/${PN}-2.66.2-meson-ntlm_auth-fix.patch
 )
 
 src_prepare() {
@@ -67,9 +64,9 @@ src_configure() {
 
 multilib_src_configure() {
 	local emesonargs=(
-		$(meson_use gssapi)
+		-Dgssapi=$(multilib_native_usex gssapi true false)
 		-Dkrb5_config="${CHOST}-krb5-config"
-		$(meson_use samba ntlm)
+		-Dntlm=$(multilib_native_usex samba true false)
 		-Dntlm_auth="${EPREFIX}/usr/bin/ntlm_auth"
 		-Dtls_check=false # disables check, we still rdep on glib-networking
 		-Dgnome=false

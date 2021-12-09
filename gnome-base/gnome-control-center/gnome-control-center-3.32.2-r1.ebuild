@@ -9,7 +9,7 @@ HOMEPAGE="https://gitlab.gnome.org/GNOME/gnome-control-center"
 
 LICENSE="GPL-2+"
 SLOT="2"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="+bluetooth +colord +cups doc elogind flickr +gnome-online-accounts +ibus input_devices_wacom kerberos libinput networkmanager +share systemd thunderbolt v4l wayland"
 REQUIRED_USE="
