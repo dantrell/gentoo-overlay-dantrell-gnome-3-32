@@ -52,7 +52,7 @@ RDEPEND="
 	boxes? ( >=gnome-extra/gnome-boxes-${PV} )
 	builder? ( >=dev-util/gnome-builder-${PV} )
 	california? ( >=gnome-extra/california-0.4.0 )
-	dino? ( >=net-im/dino-0.0.20190412 )
+	dino? ( >=net-im/dino-0.2.0 )
 	empathy? ( >=net-im/empathy-3.12.13 )
 	epiphany? ( >=www-client/epiphany-${PV} )
 	evolution? ( >=mail-client/evolution-${PV} )
@@ -60,7 +60,7 @@ RDEPEND="
 	fonts? (
 		>=media-fonts/noto-20181024
 		>=media-fonts/symbola-9.17
-		>=media-fonts/unifont-10.0.06 )
+		>=media-fonts/unifont-13.0.01 )
 	games? (
 		>=games-arcade/gnome-nibbles-${PV}
 		>=games-arcade/gnome-robots-${PV}
