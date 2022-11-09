@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit gnome.org gnome2-utils python-any-r1 meson udev virtualx xdg
 
@@ -23,7 +23,7 @@ RESTRICT="!test? ( test )"
 
 # >=polkit-0.114 for ITS translation rules of .policy files
 COMMON_DEPEND="
-	>=sci-geosciences/geocode-glib-3.10
+	>=sci-geosciences/geocode-glib-3.10:0
 	>=dev-libs/glib-2.53.0:2
 	>=gnome-base/gnome-desktop-3.11.1:3=
 	>=gnome-base/gsettings-desktop-schemas-3.27.90
@@ -80,8 +80,8 @@ DEPEND="${COMMON_DEPEND}
 
 python_check_deps() {
 	if use test; then
-		has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]" &&
-		has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
+		python_has_version "dev-python/pygobject:3[${PYTHON_USEDEP}]" &&
+		python_has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
 	fi
 }
 

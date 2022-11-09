@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 PYTHON_REQ_USE="xml"
 
 inherit gnome2 python-r1
@@ -60,6 +60,7 @@ src_install() {
 	installing() {
 		gnome2_src_install
 		python_doscript src/accerciser
+		python_optimize
 	}
 	python_foreach_impl run_in_build_dir installing
 }

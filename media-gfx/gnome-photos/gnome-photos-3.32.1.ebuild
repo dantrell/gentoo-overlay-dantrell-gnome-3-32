@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-PYTHON_COMPAT=( python{3_8,3_9,3_10} )
+PYTHON_COMPAT=( python{3_8,3_9,3_10,3_11} )
 
 inherit gnome.org gnome2-utils meson python-any-r1 virtualx xdg
 
@@ -21,7 +21,7 @@ DEPEND="
 	>=x11-libs/cairo-1.14.0
 	>=x11-libs/gdk-pixbuf-2.36.8:2
 	>=media-libs/gegl-0.4.0:0.4[cairo,raw]
-	sci-geosciences/geocode-glib
+	sci-geosciences/geocode-glib:0
 	>=media-libs/gexiv2-0.10.8
 	>=dev-libs/glib-2.57.2:2
 	>=net-libs/gnome-online-accounts-3.8.0:=
@@ -31,7 +31,7 @@ DEPEND="
 	>=dev-libs/libdazzle-3.26.0
 	>=dev-libs/libgdata-0.15.2:0=[gnome-online-accounts]
 	>=net-libs/libgfbgraph-0.2.1:0.2
-	virtual/jpeg:0
+	media-libs/libjpeg-turbo:0=
 	>=media-libs/libpng-1.6:0=
 	>=app-misc/tracker-2.0:0=
 	sys-apps/dbus

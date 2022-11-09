@@ -25,7 +25,7 @@ DEPEND="
 	>=x11-libs/gtk+-3.20:3
 	>=dev-libs/gjs-1.50
 	>=app-misc/geoclue-2.3.1:2.0
-	>=dev-libs/libgweather-3.28:=
+	>=dev-libs/libgweather-3.28:2=
 "
 RDEPEND="${DEPEND}
 	gnome-base/gsettings-desktop-schemas

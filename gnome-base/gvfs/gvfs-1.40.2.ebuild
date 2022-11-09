@@ -28,7 +28,7 @@ RDEPEND="
 	>=dev-libs/glib-2.57.2:2
 	afp? ( >=dev-libs/libgcrypt-1.2.2:0= )
 	sys-apps/dbus
-	app-crypt/gcr:=
+	app-crypt/gcr:0=
 	policykit? (
 		>=sys-auth/polkit-0.114
 		sys-libs/libcap )
@@ -59,7 +59,7 @@ RDEPEND="
 		>=dev-libs/libcdio-paranoia-0.78.2 )
 	google? ( >=dev-libs/libgdata-0.17.9:=[crypt,gnome-online-accounts] )
 	gphoto2? ( >=media-libs/libgphoto2-2.5.0:= )
-	nfs? ( >=net-fs/libnfs-1.9.8 )
+	nfs? ( >=net-fs/libnfs-1.9.8:= )
 	net-misc/openssh
 "
 DEPEND="${RDEPEND}"

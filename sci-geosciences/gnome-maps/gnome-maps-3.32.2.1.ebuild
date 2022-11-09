@@ -22,13 +22,13 @@ RDEPEND="
 	>=app-misc/geoclue-1.99.3:2.0[introspection]
 	>=dev-libs/libgee-0.16:0.8[introspection]
 	>=dev-libs/folks-0.10
-	>=sci-geosciences/geocode-glib-3.15.2[introspection]
+	>=sci-geosciences/geocode-glib-3.15.2:0[introspection]
 	>=media-libs/libchamplain-0.12.14:0.12[gtk,introspection]
 	dev-libs/libxml2:2
 	>=net-libs/rest-0.7.90:0.7[introspection]
 
 	app-crypt/libsecret[introspection]
-	dev-libs/libgweather[introspection]
+	dev-libs/libgweather:2=[introspection]
 	media-libs/clutter-gtk:1.0[introspection]
 	media-libs/clutter:1.0[introspection]
 	net-libs/gnome-online-accounts:=[introspection]
@@ -46,7 +46,7 @@ pkg_postinst() {
 	gnome2_schemas_update
 }
 
-pkg_postinst() {
+pkg_postrm() {
 	xdg_pkg_postrm
 	gnome2_schemas_update
 }

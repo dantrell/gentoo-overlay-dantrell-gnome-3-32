@@ -25,9 +25,9 @@ RDEPEND="
 	>=dev-libs/glib-2.58.0:2
 	>=x11-libs/gtk+-3.22.0:3
 	>=net-libs/gnome-online-accounts-3.2.0:=
-	>=dev-libs/libgweather-3.27.2:=
+	>=dev-libs/libgweather-3.27.2:2=
 	>=app-misc/geoclue-2.4:2.0
-	>=sci-geosciences/geocode-glib-3.23
+	>=sci-geosciences/geocode-glib-3.23:0
 "
 DEPEND="${RDEPEND}
 	dev-libs/appstream-glib
