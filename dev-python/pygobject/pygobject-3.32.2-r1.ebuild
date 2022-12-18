@@ -1,6 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
+
 PYTHON_COMPAT=( python{2_7,3_8,3_9,3_10,3_11} )
 
 inherit gnome.org meson python-r1 virtualx xdg
@@ -26,15 +27,23 @@ RDEPEND="${PYTHON_DEPS}
 		x11-libs/cairo[glib] )
 "
 DEPEND="${RDEPEND}
-	virtual/pkgconfig
-	cairo? ( x11-libs/cairo[glib] )
 	test? (
 		dev-libs/atk[introspection]
 		dev-python/pytest[${PYTHON_USEDEP}]
 		x11-libs/gdk-pixbuf:2[introspection,jpeg]
 		x11-libs/gtk+:3[introspection]
-		x11-libs/pango[introspection] )
+		x11-libs/pango[introspection]
+	)
 "
+BDEPEND="
+	virtual/pkgconfig
+"
+
+PATCHES=(
+	# From Red Hat:
+	# 	https://bugzilla.redhat.com/show_bug.cgi?id=1900494
+	"${FILESDIR}"/${PN}-3.30.5-remove-usage-of-pyunicode-asstringandsize-no-longer-available-in-py3-10.patch
+)
 
 src_configure() {
 	configuring() {
