@@ -4,8 +4,13 @@ EAPI="6"
 
 inherit gnome.org meson multilib-minimal systemd virtualx xdg
 
+GNOME_ORG_MODULE="at-spi2-core"
+
 DESCRIPTION="D-Bus accessibility specifications and registration daemon"
-HOMEPAGE="https://wiki.gnome.org/Accessibility"
+HOMEPAGE="https://wiki.gnome.org/Accessibility https://gitlab.gnome.org/GNOME/at-spi2-core"
+SRC_URI="mirror://gnome/sources/${GNOME_ORG_MODULE}/${GNOME_ORG_PVP}/${GNOME_ORG_MODULE}-${PV}.tar.${GNOME_TARBALL_SUFFIX}"
+
+S="${WORKDIR}/${GNOME_ORG_MODULE}-${PV}"
 
 LICENSE="LGPL-2+"
 SLOT="2"
@@ -22,6 +27,8 @@ RDEPEND="
 		x11-libs/libXtst[${MULTILIB_USEDEP}]
 		x11-libs/libXi[${MULTILIB_USEDEP}]
 	)
+
+	!<app-accessibility/at-spi2-core-2.46.0:2
 "
 DEPEND="${RDEPEND}
 	gtk-doc? (
@@ -33,7 +40,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	# disable teamspaces test since that requires Novell.ICEDesktop.Daemon
-	"${FILESDIR}"/${PN}-2.0.2-disable-teamspaces-test.patch
+	"${FILESDIR}"/${GNOME_ORG_MODULE}-2.0.2-disable-teamspaces-test.patch
 )
 
 multilib_src_configure() {
