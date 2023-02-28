@@ -71,7 +71,6 @@ RDEPEND="
 		x11-base/xorg-server[wayland]
 		x11-libs/libdrm:=
 	)
-	media-video/pipewire
 "
 DEPEND="${RDEPEND}
 	>=sys-devel/gettext-0.19.6
