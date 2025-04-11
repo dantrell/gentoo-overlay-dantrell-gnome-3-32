@@ -1,7 +1,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-PYTHON_COMPAT=( python{3_9,3_10,3_11} )
+PYTHON_COMPAT=( python{3_10,3_11,3_12,3_13} )
 
 inherit gnome.org gnome2-utils python-any-r1 meson udev virtualx xdg
 
@@ -95,7 +95,7 @@ src_prepare() {
 
 	if ! use vanilla-inactivity; then
 		# From GNOME:
-		# 	https://gitlab.gnome.org/GNOME/gnome-settings-daemon/commit/2fdb48fa3333638cee889b8bb80dc1d2b65aaa4a
+		# 	https://gitlab.gnome.org/GNOME/gnome-settings-daemon/-/commit/2fdb48fa3333638cee889b8bb80dc1d2b65aaa4a
 		eapply "${FILESDIR}"/${PN}-3.30.1.2-power-dont-default-to-suspend-after-20-minutes-of-inactivity.patch
 	fi
 

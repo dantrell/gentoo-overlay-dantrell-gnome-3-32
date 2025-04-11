@@ -28,7 +28,7 @@ DEPEND="${RDEPEND}
 src_prepare() {
 	if ! use vanilla-fonts; then
 		# From GNOME:
-		# 	https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/commit/965062de47f5171727c1e4f7f0aac2ad40e3484a
+		# 	https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/commit/965062de47f5171727c1e4f7f0aac2ad40e3484a
 		eapply -R "${FILESDIR}"/${PN}-3.31.90-schemas-change-default-monospaced-and-document-fonts.patch
 	fi
 

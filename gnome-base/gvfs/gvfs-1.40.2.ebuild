@@ -64,7 +64,7 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
-	>=dev-util/meson-0.49
+	>=dev-build/meson-0.49
 	app-text/docbook-xsl-stylesheets
 	app-text/docbook-xml-dtd:4.2
 	dev-libs/libxslt

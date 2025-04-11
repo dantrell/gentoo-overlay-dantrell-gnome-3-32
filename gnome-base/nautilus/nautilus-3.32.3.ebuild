@@ -87,8 +87,8 @@ src_prepare() {
 
 	if ! use vanilla-thumbnailer; then
 		# From GNOME:
-		# 	https://gitlab.gnome.org/GNOME/gnome-desktop/commit/8b1db18aa75c2684b513481088b4e289b5c8ed92
-		# 	https://gitlab.gnome.org/GNOME/nautilus/commit/673c81cf9f1d68b71041220e6e44624dee44dbfc
+		# 	https://gitlab.gnome.org/GNOME/gnome-desktop/-/commit/8b1db18aa75c2684b513481088b4e289b5c8ed92
+		# 	https://gitlab.gnome.org/GNOME/nautilus/-/commit/673c81cf9f1d68b71041220e6e44624dee44dbfc
 		eapply "${FILESDIR}"/${PN}-3.32.3-dont-sandbox-thumbnailers-on-linux.patch
 	fi
 

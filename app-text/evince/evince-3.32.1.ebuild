@@ -58,7 +58,7 @@ DEPEND="${COMMON_DEPEND}
 	app-text/docbook-xml-dtd:4.3
 	dev-libs/appstream-glib
 	dev-util/gdbus-codegen
-	>=dev-util/gtk-doc-am-1.13
+	>=dev-build/gtk-doc-am-1.13
 	>=dev-util/intltool-0.35
 	dev-util/itstool
 	sys-devel/gettext
